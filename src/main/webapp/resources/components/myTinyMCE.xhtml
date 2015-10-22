@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite">
+<h:body>
+
+	<cc:interface>
+		<cc:editableValueHolder name="inputText" />
+	</cc:interface>
+
+	<cc:implementation>
+		<script type="text/javascript">
+			tinyMCE.init({
+				mode : "textareas",
+				theme : "modern",
+				toolbar: "undo redo | styleselect | bold italic underline strikethrough | bullist numlist | image table | spellchecker",
+				selector: "textarea.jazzy",
+				plugins: "spellchecker image table",
+				spellchecker_languages : "+English=en-us",
+				spellchecker_rpc_url : "#{request.contextPath}/servlet/jazzy-spellchecker"
+			});
+		</script>
+
+		<h:inputTextarea id="inputText" class="jazzy" value="#{cc.attrs.value}" width="600"
+			required="true" />
+
+	</cc:implementation>
+</h:body>
+</html>
