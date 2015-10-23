@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
@@ -25,6 +26,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.HttpRequestHandler;
@@ -40,7 +42,7 @@ import com.zaxxer.hikari.HikariDataSource;
 //Mark the class to be spring configuration equivalent to applicationContext.xml
 @Configuration
 // Load property file based on Profile specified
-// @PropertySource("classpath:hibernate-${spring.profiles.active}.properties")
+//@PropertySource("classpath:hibernate-${spring.profiles.active}.properties")
 @PropertySource("classpath:hibernate-dev.properties")
 // Enable Spring transaction management
 @EnableTransactionManagement
@@ -54,13 +56,21 @@ public class SpringBootEssayLibraryApplication extends SpringBootServletInitiali
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootEssayLibraryApplication.class, args);
 	}
+	
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application
+				.sources(new Class[] { SpringBootEssayLibraryApplication.class, MyServletContextInitializer.class });
+	}
 
+	//Register FacesServlet
 	@Bean
 	public ServletRegistrationBean faceServletRegistrationBean() {
 		FacesServlet facesServlet = new FacesServlet();
 		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(facesServlet, "*.jsf", "/faces/*",
 				"*.faces", "*.xhtml");
 
+		servletRegistrationBean.setLoadOnStartup(1);
 		return servletRegistrationBean;
 	}
 
@@ -87,6 +97,7 @@ public class SpringBootEssayLibraryApplication extends SpringBootServletInitiali
 		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(jazzySpellCheckerServlet,
 				"/servlet/jazzy-spellchecker");
 
+		servletRegistrationBean.setLoadOnStartup(2);
 		return servletRegistrationBean;
 	}
 
@@ -107,16 +118,26 @@ public class SpringBootEssayLibraryApplication extends SpringBootServletInitiali
 		return tomcat;
 	}
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application
-				.sources(new Class[] { SpringBootEssayLibraryApplication.class, MyServletContextInitializer.class });
-	}
-
+	
 	@Bean
 	public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
 		return new ServletListenerRegistrationBean<ConfigureListener>(new ConfigureListener());
 	}
+	
+	//Register OpenEntityManagerInViewFilter
+	@Bean
+    public FilterRegistrationBean openEntityManagerInViewFilterRegistrationBean() {
+        
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        
+        OpenEntityManagerInViewFilter openEntityManagerInViewFilter = new OpenEntityManagerInViewFilter();
+        
+        filterRegistrationBean.setFilter(openEntityManagerInViewFilter);
+        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.setOrder(1);
+        
+        return filterRegistrationBean;
+    }
 
 	// Inject environment variable to be used to load properties from the
 	// property file
