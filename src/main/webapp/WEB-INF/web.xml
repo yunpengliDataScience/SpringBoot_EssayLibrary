@@ -33,5 +33,9 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
+	<!-- Welcome page -->
+	<welcome-file-list>
+		<welcome-file>homePage.xhtml</welcome-file>
+	</welcome-file-list>
 
 </web-app>
