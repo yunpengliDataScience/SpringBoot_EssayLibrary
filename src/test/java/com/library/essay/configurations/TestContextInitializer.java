@@ -1,4 +1,4 @@
-package com.library.essay.config;
+package com.library.essay.configurations;
 
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;

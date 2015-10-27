@@ -16,8 +16,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.library.essay.config.TestConfiguration;
-import com.library.essay.config.TestContextInitializer;
+import com.library.essay.configurations.TestConfiguration;
+import com.library.essay.configurations.TestContextInitializer;
 import com.library.essay.persistence.entities.Essay;
 import com.library.essay.persistence.repositories.EssayRepository;
 

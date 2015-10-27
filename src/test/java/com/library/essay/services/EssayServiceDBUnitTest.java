@@ -16,8 +16,8 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.library.essay.config.TestConfiguration;
-import com.library.essay.config.TestContextInitializer;
+import com.library.essay.configurations.TestConfiguration;
+import com.library.essay.configurations.TestContextInitializer;
 import com.library.essay.persistence.entities.Essay;
 
 @RunWith(SpringJUnit4ClassRunner.class)
