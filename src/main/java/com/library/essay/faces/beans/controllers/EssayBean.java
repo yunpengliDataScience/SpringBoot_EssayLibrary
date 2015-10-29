@@ -43,7 +43,7 @@ public class EssayBean implements Serializable {
 		return essayService.getEssays();
 	}
 
-	public String showEssay() {
+	public String showEssayAdmin() {
 
 		FacesContext fc = FacesContext.getCurrentInstance();
 
@@ -53,6 +53,18 @@ public class EssayBean implements Serializable {
 		this.essay = essayService.getEssay(essayId);
 
 		return "essay";
+	}
+
+	public String showEssay() {
+
+		FacesContext fc = FacesContext.getCurrentInstance();
+
+		String essayIdStr = this.getEssayId(fc);
+		long essayId = Long.parseLong(essayIdStr);
+
+		this.essay = essayService.getEssay(essayId);
+
+		return "essay2";
 	}
 
 	// get value from "f:param"

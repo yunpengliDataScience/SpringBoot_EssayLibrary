@@ -72,7 +72,7 @@ public class WebConfig {
 			@Override
 			public void customize(Context context) {
 
-				context.addWelcomeFile("homePage.xhtml");
+				context.addWelcomeFile("pages/homePage.xhtml");
 			}
 		});
 

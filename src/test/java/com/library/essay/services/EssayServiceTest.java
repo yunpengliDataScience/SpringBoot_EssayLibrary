@@ -21,8 +21,9 @@ import com.library.essay.configurations.TestContextInitializer;
 import com.library.essay.persistence.entities.Essay;
 import com.library.essay.persistence.repositories.EssayRepository;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestConfiguration.class, initializers = TestContextInitializer.class)
+@ContextConfiguration(classes = TestConfiguration.class)
 public class EssayServiceTest {
 
 	@Autowired

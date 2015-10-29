@@ -14,6 +14,7 @@ public class MyServletContextInitializer implements ServletContextInitializer {
 
 		servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
 		servletContext.setInitParameter("primefaces.THEME", "sunny");
+		servletContext.setInitParameter("javax.faces.FACELETS_LIBRARIES", "/WEB-INF/springsecurity.taglib.xml");
 	}
 
 }

@@ -20,8 +20,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 //Load property file based on Profile specified
-@PropertySource("classpath:hibernate-${spring.profiles.active}.properties")
-//@PropertySource("classpath:hibernate-dev.properties")
+//@PropertySource("classpath:hibernate-${spring.profiles.active}.properties")
 //Enable Spring transaction management
 @EnableTransactionManagement
 //Specify JPA repository location

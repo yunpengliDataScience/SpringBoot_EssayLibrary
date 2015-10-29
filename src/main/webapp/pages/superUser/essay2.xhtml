@@ -5,6 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:myEditor="http://java.sun.com/jsf/composite/components">
 <h:head>
 	<h:outputStylesheet library="css" name="table-style.css" />
@@ -15,15 +16,16 @@
 
 	<center>
 		<br />
-		<h:outputLink value="homePage.xhtml">Home</h:outputLink>
-
+		<h:outputLink value="#{request.contextPath}/pages/homePage.xhtml">Home</h:outputLink>
+		<br/>
+		<h:outputLink value="#{request.contextPath}/pages/logout">Logout</h:outputLink>
 		<br /> <br /> <br />
 
 		<h1>Essay Data Table</h1>
 		<h:form id="essayList">
 			<p:dataTable value="#{essayBean.getEssays()}" var="essay">
 				<f:facet name="header">
-			        Essay Data Table
+			        Essay Data Table (View Essays Only)
 				</f:facet>
 				
 				<p:column headerText="Essay ID">
@@ -43,12 +45,16 @@
 			</p:dataTable>
 
 		</h:form>
-
+		
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+			ONLY ADMIN USER CAN SEE THIS TEXT !
+		</sec:authorize>
+		
 		<h1>Essay Form</h1>
-		<h:form id="essay">
-<!--  
+		<h:form id="essay" rendered="#{essayBean.essay!=null}">
+
 			<h:inputHidden value="#{essayBean.essay.id}" />
--->
+
 			<p:panelGrid>
 				<p:row>
 					<p:column>
@@ -92,25 +98,13 @@
 						
 			</p:panelGrid>
 
-			<p:commandButton value="Create New"
-				action="#{essayBean.createNewEssay()}" immediate="true" ajax="false"/>
-			
-			<p:commandButton value="Save" action="#{essayBean.saveEssay()}" ajax="false"/>
-			
-			<p:commandButton type="button" value="Delete"
-				onclick="PF('cd').show()" />
-			<p:confirmDialog
-				message="Are you sure about deleting this essay?"
-				header="Initiating delete process" severity="alert" widgetVar="cd">
-				<p:commandButton value="Yes Sure"
-					action="#{essayBean.deleteEssay()}"
-					oncomplete="PF('cd').hide()" ajax="false" />
-				<p:commandButton value="Not Yet" onclick="PF('cd').hide();"
-					type="button" />
-			</p:confirmDialog>
+			<!-- Only admin can see the Save button -->
+			<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+				<p:commandButton value="Save" action="#{essayBean.saveEssay()}" ajax="false"/>
+			</sec:authorize>
 			
 			<p:button value="Report"
-				onclick="window.open('report?essayId=#{essayBean.essay.id}', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
+				onclick="window.open('#{request.contextPath}/report?essayId=#{essayBean.essay.id}', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
 
 		</h:form>
 	</center>

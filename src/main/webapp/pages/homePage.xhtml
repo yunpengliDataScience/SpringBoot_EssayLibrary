@@ -10,11 +10,23 @@
 		<span><h1>Spring Boot + JSF 2.2 + JPA + PrimeFaces</h1></span>
 		<br/>
 		<span>Welcome to Essay Library!</span>
+		<br/>
+		<h:outputLink value="#{request.contextPath}/pages/logout">Logout</h:outputLink>
 		<br/><br/><br/>
 		<table>
 			<tr>
 				<td>
-					<h:outputLink value="essay.xhtml" >Essay Data Table</h:outputLink>
+					<h:outputLink value="#{request.contextPath}/pages/admin/essay.xhtml" >Edit Essays (Only for Admin Users)</h:outputLink>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h:outputLink value="#{request.contextPath}/pages/superUser/essay2.xhtml" >View Essays (For Super Users)</h:outputLink>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h:outputLink value="#{request.contextPath}/pages/public/introduction.xhtml" >Introduction (For Everyone)</h:outputLink>
 				</td>
 			</tr>
 		</table>

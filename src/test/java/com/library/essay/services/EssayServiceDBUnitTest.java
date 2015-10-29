@@ -7,10 +7,12 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
@@ -20,10 +22,11 @@ import com.library.essay.configurations.TestConfiguration;
 import com.library.essay.configurations.TestContextInitializer;
 import com.library.essay.persistence.entities.Essay;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestConfiguration.class, initializers = TestContextInitializer.class)
+@ContextConfiguration(classes = TestConfiguration.class)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-		DbUnitTestExecutionListener.class })
+		DbUnitTestExecutionListener.class, TransactionalTestExecutionListener.class })
 public class EssayServiceDBUnitTest {
 
 	@Autowired
@@ -52,6 +55,7 @@ public class EssayServiceDBUnitTest {
 	@DatabaseSetup("/sampleEssayData.xml")
 	@ExpectedDatabase("/expectedEssayData.xml")
 	// Expected data after run the test
+	@DatabaseTearDown("/sampleEssayData.xml") //Used to reset database
 	public void testDeleteEssay() {
 
 		System.out.println("------------------------------------");
