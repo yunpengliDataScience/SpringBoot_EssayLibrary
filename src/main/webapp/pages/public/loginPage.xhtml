@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+	<center>
+		<br />
+		<h2>Login Form</h2>
+
+		<h:form prependId="false" id="form">
+			<h:messages globalOnly="true" style="color:red"/>
+			<p:panelGrid columns="3" style="border-bottom-width: 0px;">
+				<h:outputText value="User:" />
+				<p:inputText value="#{loginController.user}" id="username" />
+				<h:message for="username" display="text" style="color:red" />
+
+				<h:outputText value="Password:" />
+				<p:password value="#{loginController.password}" id="password" />
+				<h:message for="password" display="text" style="color:red" />
+			</p:panelGrid>
+			<p:commandButton action="#{loginController.login}" value="Login"
+				ajax="false" />
+		</h:form>
+
+	</center>
+</h:body>
+</html>

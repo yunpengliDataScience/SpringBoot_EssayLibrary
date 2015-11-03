@@ -28,8 +28,7 @@ public class WebConfig {
 	@Bean
 	public ServletRegistrationBean faceServletRegistrationBean() {
 		FacesServlet facesServlet = new FacesServlet();
-		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(facesServlet, "*.jsf", "/faces/*",
-				"*.faces", "*.xhtml");
+		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(facesServlet, "*.xhtml");
 
 		servletRegistrationBean.setLoadOnStartup(1);
 		return servletRegistrationBean;

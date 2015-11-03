@@ -18,18 +18,6 @@
 	<!-- Map these files with JSF -->
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>/faces/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.jsf</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.faces</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
@@ -37,11 +25,25 @@
 	<welcome-file-list>
 		<welcome-file>pages/homePage.xhtml</welcome-file>
 	</welcome-file-list>
-	
+
 	<!-- Register Spring Security Facelets Tag Library -->
 	<context-param>
 		<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
 		<param-value>/WEB-INF/springsecurity.taglib.xml</param-value>
 	</context-param>
+
+	<!-- Enable Spring Security and Enable JSF login bean to forward the request 
+		to the filter. -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher><!-- mandatory to allow the managed bean 
+			to forward the request to the filter -->
+	</filter-mapping>
 
 </web-app>

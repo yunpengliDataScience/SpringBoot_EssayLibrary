@@ -20,12 +20,12 @@ public class MemSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		
-				.antMatchers("/pages/public/**", "/pages/homePage.xhtml", "/pages/logout").permitAll()
+				.antMatchers("/javax.faces.resource/**", "/pages/public/**", "/pages/homePage.xhtml", "/pages/logout").permitAll()
 				.antMatchers("/pages/admin/**").hasAuthority("ROLE_ADMIN")
 				.antMatchers("/pages/superUser/**").hasAuthority("ROLE_SUPER")
 				.anyRequest().authenticated()
 				.and()
-				.formLogin()
+				.formLogin().loginPage("/pages/public/loginPage.xhtml")
 				.and()
                 .csrf().disable()
                 .logout()
