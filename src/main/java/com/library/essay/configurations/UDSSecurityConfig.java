@@ -1,8 +1,7 @@
 package com.library.essay.configurations;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -11,15 +10,17 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-@Profile("jdbc-security")
+@Profile("uds-security")
 @Configuration
 @EnableWebSecurity
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-public class JDBCSecurityConfig extends WebSecurityConfigurerAdapter {
+public class UDSSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private DataSource dataSource;
+	@Qualifier("myUserDetailsService")
+	private UserDetailsService userDetailsService;
 
 	//1. Configure HTTP URL pattern mappings.
 	@Override
@@ -43,9 +44,6 @@ public class JDBCSecurityConfig extends WebSecurityConfigurerAdapter {
 	//2. Configure authentication strategies.
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication()
-			.dataSource(dataSource)
-			.usersByUsernameQuery("SELECT USER_NAME, PASSWORD, ENABLED FROM USER WHERE USER_NAME=?")
-			.authoritiesByUsernameQuery("SELECT u.USER_NAME, ur.ROLE FROM USER u, USER_ROLE ur WHERE u.USER_ID = ur.USER_ID AND u.USER_NAME =?");
+		auth.userDetailsService(userDetailsService);
 	}
 }
