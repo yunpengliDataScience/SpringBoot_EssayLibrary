@@ -15,6 +15,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.library.essay.utils.MyEnvironmentAware;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -89,5 +90,10 @@ public class JPARepositoryConfig {
 			entityManagerFactoryBean.setJpaProperties(jpaProperties);
 
 			return entityManagerFactoryBean;
+		}
+		
+		@Bean
+		public MyEnvironmentAware myEnvironmentAware(){
+			return new MyEnvironmentAware();
 		}
 }

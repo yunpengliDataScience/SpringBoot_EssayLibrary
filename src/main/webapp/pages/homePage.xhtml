@@ -9,7 +9,11 @@
 	<center>
 		<span><h1>Spring Boot + JSF 2.2 + JPA + PrimeFaces</h1></span>
 		<br/>
-		<span>Welcome to Essay Library!</span>
+		<span><h2>Welcome to Essay Library!</h2></span>
+		<br/>
+		<span>Active Profiles: <h:outputText value="#{activeProfileBean.activeProfiles}" /> </span>
+		<br/>
+		<br/>
 		<br/>
 		<h:outputLink value="#{request.contextPath}/pages/logout">Logout</h:outputLink>
 		<br/><br/><br/>
