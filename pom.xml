@@ -24,15 +24,10 @@
 		<jsf.version>2.2.12</jsf.version>
 		<primefaces.version>5.3</primefaces.version>
 		<jasperreport.version>5.5.1</jasperreport.version>
-
-		<json.version>20090211</json.version>
-		<!-- <lucene.version>4.2.1</lucene.version> <lucene.spellchecker.version>3.6.2</lucene.spellchecker.version> -->
-		<jazzy.version>0.5.2-rtext-1.4.1-2</jazzy.version>
-		<jmyspell-core.version>1.0.0-beta-2</jmyspell-core.version>
 		<apache.directory.server.version>1.5.5</apache.directory.server.version>
 	</properties>
 
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,55 +54,55 @@
 			<artifactId>tomcat-embed-jasper</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		
+
 		<dependency>
-	      <groupId>org.springframework.security</groupId>
-	      <artifactId>spring-security-ldap</artifactId>
-	      <scope>runtime</scope>
-	    </dependency>
-	    
-	    <!-- Apache Directory -->
-	    <dependency>
-	      <groupId>org.apache.directory.server</groupId>
-	      <artifactId>apacheds-core</artifactId>
-	      <version>${apache.directory.server.version}</version>
-	      <scope>runtime</scope>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.apache.directory.server</groupId>
-	      <artifactId>apacheds-core-entry</artifactId>
-	      <version>${apache.directory.server.version}</version>
-	      <scope>runtime</scope>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.apache.directory.server</groupId>
-	      <artifactId>apacheds-protocol-ldap</artifactId>
-	      <version>${apache.directory.server.version}</version>
-	      <scope>runtime</scope>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.apache.directory.server</groupId>
-	      <artifactId>apacheds-protocol-shared</artifactId>
-	      <version>${apache.directory.server.version}</version>
-	      <scope>runtime</scope>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.apache.directory.server</groupId>
-	      <artifactId>apacheds-server-jndi</artifactId>
-	      <version>${apache.directory.server.version}</version>
-	      <scope>runtime</scope>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.apache.directory.shared</groupId>
-	      <artifactId>shared-ldap</artifactId>
-	      <version>0.9.15</version>
-	      <scope>runtime</scope>
-	    </dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-ldap</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Apache Directory -->
+		<dependency>
+			<groupId>org.apache.directory.server</groupId>
+			<artifactId>apacheds-core</artifactId>
+			<version>${apache.directory.server.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.directory.server</groupId>
+			<artifactId>apacheds-core-entry</artifactId>
+			<version>${apache.directory.server.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.directory.server</groupId>
+			<artifactId>apacheds-protocol-ldap</artifactId>
+			<version>${apache.directory.server.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.directory.server</groupId>
+			<artifactId>apacheds-protocol-shared</artifactId>
+			<version>${apache.directory.server.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.directory.server</groupId>
+			<artifactId>apacheds-server-jndi</artifactId>
+			<version>${apache.directory.server.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.directory.shared</groupId>
+			<artifactId>shared-ldap</artifactId>
+			<version>0.9.15</version>
+			<scope>runtime</scope>
+		</dependency>
 
 		<!-- Database -->
 		<dependency>
@@ -148,26 +143,26 @@
 			<artifactId>all-themes</artifactId>
 			<version>1.0.10</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
 		</dependency>
-		
+
 		<!-- Spring Security Facelets Tag Library Support -->
-	    <dependency>
+		<dependency>
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>spring-faces</artifactId>
 			<version>2.4.2.RELEASE</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<!-- EL 3.0.0 to support method parameter in EL -->
 		<dependency>
 			<groupId>org.glassfish</groupId>
@@ -197,25 +192,13 @@
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
 
-		<!-- Spell checker -->
+		<!-- Customized Spellchecker -->
 		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>${json.version}</version>
+			<groupId>org.dragon.yunpeng</groupId>
+			<artifactId>TinyMCESpellCheckerEditor</artifactId>
+			<version>1.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>net.sf.jazzy</groupId>
-			<artifactId>jazzy</artifactId>
-			<version>${jazzy.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.dts</groupId>
-			<artifactId>jmyspell-core</artifactId>
-			<version>${jmyspell-core.version}</version>
-		</dependency>
-		
 		<!-- Extra Testing Dependencies -->
 		<dependency>
 			<groupId>com.github.springtestdbunit</groupId>
@@ -256,12 +239,7 @@
 			<url>http://repository.primefaces.org</url>
 			<layout>default</layout>
 		</repository>
-		<!-- For JMySpell-->
-        <repository>
-            <id>Nuxeo</id>
-            <name>Nuxeo</name>
-            <url>http://maven-us.nuxeo.org/nexus/content/repositories/vendor-releases</url>
-        </repository>
+
 	</repositories>
 
 </project>

@@ -5,10 +5,10 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:myEditor="http://java.sun.com/jsf/composite/components">
+	xmlns:myEditor="http://yunpeng.dragon.org/taglib/spellCheckerTinymce">
 <h:head>
 	<h:outputStylesheet library="css" name="table-style.css" />
-	<myEditor:loadMyTinyMCE />
+	<myEditor:loadSpellCheckerTinymce />
 </h:head>
 
 <h:body>
@@ -84,7 +84,7 @@
 						<p:outputLabel for="myEditor" value="Content :" />
 					</p:column>
 					<p:column>
-						<myEditor:myTinyMCE id="myEditor" value="#{essayBean.essay.content}"/>
+						<myEditor:spellCheckerTinymce id="myEditor" value="#{essayBean.essay.content}"/>
 					</p:column>
 					<p:column>
 						<h:message for="myEditor" style="color:red" />

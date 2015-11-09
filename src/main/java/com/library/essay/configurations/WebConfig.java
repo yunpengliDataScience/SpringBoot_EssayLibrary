@@ -3,6 +3,7 @@ package com.library.essay.configurations;
 import javax.faces.webapp.FacesServlet;
 
 import org.apache.catalina.Context;
+import org.dragon.yunpeng.tinymce.spellchecker.JazzySpellCheckerServlet;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
@@ -18,7 +19,6 @@ import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
 
 import com.library.essay.reports.servlets.ReportServlet;
-import com.library.essay.tinymce.spellchecker.JazzySpellCheckerServlet;
 import com.sun.faces.config.ConfigureListener;
 
 @Configuration
