@@ -89,10 +89,12 @@
 						<p:outputLabel for="myEditor" value="Content :" />
 					</p:column>
 					<p:column>
-						<myEditor:myTinyMCE id="myEditor" value="#{essayBean.essay.content}"/>
+						<myEditor:myTinyMCE id="myEditor" value="#{essayBean.essay.content}">
+							<f:validateRequired for="inputText"/>
+						</myEditor:myTinyMCE>
 					</p:column>
 					<p:column>
-						<h:message for="myEditor" style="color:red" />
+						<h:message for="inputText" style="color:red" />
 					</p:column>
 				</p:row>
 						
