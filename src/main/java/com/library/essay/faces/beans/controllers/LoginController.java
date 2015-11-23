@@ -19,8 +19,10 @@ import javax.servlet.ServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.web.WebAttributes;
+import org.springframework.stereotype.Component;
 
 /**
  * LoginController implements PhaseListener in order to generate error messages
@@ -30,8 +32,9 @@ import org.springframework.security.web.WebAttributes;
  * @author yunpeng.li
  *
  */
-@ManagedBean("loginController")
-@RequestScoped
+
+@Component("loginController")
+@Scope("request")
 public class LoginController implements Serializable, PhaseListener {
 
 	protected final Log logger = LogFactory.getLog(getClass());

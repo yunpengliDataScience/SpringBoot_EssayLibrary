@@ -1,16 +1,15 @@
 package com.library.essay.faces.beans.controllers;
 
-import javax.annotation.ManagedBean;
-import javax.faces.bean.ApplicationScoped;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.EnvironmentAware;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.library.essay.utils.MyEnvironmentAware;
 
-@ManagedBean("activeProfileBean")
-@ApplicationScoped
+@Component("activeProfileBean")
+@Scope("singleton")
 public class ActiveProfileBean {
 
 	@Autowired
