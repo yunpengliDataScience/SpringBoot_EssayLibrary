@@ -12,12 +12,15 @@ public interface EssayService {
 
 	List<Essay> getEssays(String sortProperty, boolean isAsc);
 
-	List<Essay> getEssays(int pageIndex, int pageSize, String sortProperty,
-			boolean isAsc);
+	List<Essay> getEssays(int pageIndex, int pageSize, String sortProperty, boolean isAsc);
 
 	Essay saveOrUpdate(Essay essay);
 
 	void delete(Essay essay);
 
 	void deleteAll();
+
+	List<Essay> findEssaysByAuthor(String author);
+
+	List<Essay> findEssaysByTitleContains(String titleSegment);
 }
