@@ -22,11 +22,10 @@ import com.library.essay.configurations.TestConfiguration;
 import com.library.essay.configurations.TestContextInitializer;
 import com.library.essay.persistence.entities.Essay;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfiguration.class)
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-		DbUnitTestExecutionListener.class, TransactionalTestExecutionListener.class })
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class,
+		TransactionalTestExecutionListener.class })
 public class EssayServiceDBUnitTest {
 
 	@Autowired
@@ -34,7 +33,7 @@ public class EssayServiceDBUnitTest {
 
 	@Test
 	@DatabaseSetup("/sampleEssayData.xml")
-	// @DatabaseTearDown("/sampleEssayData.xml") //Used to reset database
+	@DatabaseTearDown("/emptyEssayData.xml") // Used to reset database
 	public void testGetEssays() {
 
 		System.out.println("------------------------------------");
@@ -52,10 +51,41 @@ public class EssayServiceDBUnitTest {
 	}
 
 	@Test
+	@DatabaseSetup("/sampleEssayData2.xml")
+	@DatabaseTearDown("/emptyEssayData.xml") // Used to reset database
+	public void testFindEssays() {
+
+		System.out.println("------------------------------------");
+		System.out.println("testFindEssays() starts");
+		System.out.println("------------------------------------");
+
+		List<Essay> essays = essayService.findEssaysByAuthor("Yunpeng");
+
+		assertNotNull(essays);
+		assertEquals(3, essays.size());
+
+		for (Essay essay : essays) {
+			System.out.println(essay);
+		}
+
+		essays = essayService.findEssaysByTitleContains("Human");
+
+		for (Essay essay : essays) {
+			System.out.println("================");
+			System.out.println(essay);
+			System.out.println("================");
+		}
+
+		assertNotNull(essays);
+		assertEquals(2, essays.size());
+
+	}
+
+	@Test
 	@DatabaseSetup("/sampleEssayData.xml")
-	@ExpectedDatabase("/expectedEssayData.xml")
+	// @ExpectedDatabase("/expectedEssayData.xml")
 	// Expected data after run the test
-	@DatabaseTearDown("/sampleEssayData.xml") //Used to reset database
+	@DatabaseTearDown("/emptyEssayData.xml") // Used to reset database
 	public void testDeleteEssay() {
 
 		System.out.println("------------------------------------");
@@ -64,5 +94,9 @@ public class EssayServiceDBUnitTest {
 
 		Essay essay = essayService.getEssay(1);
 		essayService.delete(essay);
+
+		List<Essay> essays = essayService.getEssays();
+		assertNotNull(essays);
+		assertEquals(1, essays.size());
 	}
 }

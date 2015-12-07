@@ -33,6 +33,16 @@ public class EssayServiceImp implements EssayService {
 	}
 
 	@Override
+	public List<Essay> findEssaysByAuthor(String author) {
+		return essayRepository.findByAuthor(author);
+	}
+
+	@Override
+	public List<Essay> findEssaysByTitleContains(String titleSegment) {
+		return essayRepository.findEssays(titleSegment);
+	}
+
+	@Override
 	public List<Essay> getEssays(String sortProperty, boolean isAsc) {
 
 		Direction direction = null;
@@ -50,11 +60,9 @@ public class EssayServiceImp implements EssayService {
 	}
 
 	@Override
-	public List<Essay> getEssays(int pageIndex, int pageSize,
-			String sortProperty, boolean isAsc) {
+	public List<Essay> getEssays(int pageIndex, int pageSize, String sortProperty, boolean isAsc) {
 
-		Pageable pageSpecification = buildPageSpecification(pageIndex,
-				pageSize, sortProperty, isAsc);
+		Pageable pageSpecification = buildPageSpecification(pageIndex, pageSize, sortProperty, isAsc);
 
 		Page<Essay> page = essayRepository.findAll(pageSpecification);
 
@@ -62,8 +70,7 @@ public class EssayServiceImp implements EssayService {
 	}
 
 	// Pagination
-	private Pageable buildPageSpecification(int pageIndex, int pageSize,
-			String sortProperty, boolean isAsc) {
+	private Pageable buildPageSpecification(int pageIndex, int pageSize, String sortProperty, boolean isAsc) {
 
 		Sort sortSpec = getSort(sortProperty, isAsc);
 
