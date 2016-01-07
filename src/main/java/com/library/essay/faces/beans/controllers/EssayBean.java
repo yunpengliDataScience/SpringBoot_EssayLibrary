@@ -35,6 +35,8 @@ public class EssayBean implements Serializable {
 	}
 
 	public List<Essay> getEssays() {
+		
+		logger.debug("getEssays() is called!"); 
 		return essayService.getEssays();
 	}
 
