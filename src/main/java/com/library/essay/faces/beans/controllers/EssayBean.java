@@ -4,8 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
+import org.apache.commons.lang3.StringUtils;
+import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.inputtextarea.InputTextarea;
+import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +41,8 @@ public class EssayBean implements Serializable {
 	}
 
 	public List<Essay> getEssays() {
-		
-		logger.debug("getEssays() is called!"); 
+
+		logger.debug("getEssays() is called!");
 		return essayService.getEssays();
 	}
 
@@ -80,11 +86,38 @@ public class EssayBean implements Serializable {
 		return "essay";
 	}
 
+	public void initNewEssay() {
+		this.essay = new Essay();
+	}
+
 	public String saveEssay() {
 
 		essay = essayService.saveOrUpdate(essay);
 
 		return "essay";
+	}
+
+	// TODO
+	public void validateAndSaveEssay(ActionEvent ae) {
+		RequestContext requestContext = RequestContext.getCurrentInstance();
+		String message;
+		FacesMessage.Severity severity;
+		InputText titleInput = (InputText) ae.getComponent().findComponent("title");
+
+		if (essay.getTitle() != null && StringUtils.trimToNull(essay.getTitle()) != null) {
+			message = "Archived.";
+			severity = FacesMessage.SEVERITY_INFO;
+			requestContext.addCallbackParam("titleValid", true);
+			titleInput.setValid(true);
+
+		} else {
+			message = "Title is required!";
+			severity = FacesMessage.SEVERITY_ERROR;
+			requestContext.addCallbackParam("titleValid", false);
+			titleInput.setValid(false);
+		}
+		FacesMessage msg = new FacesMessage(severity, message, null);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public String deleteEssay() {
