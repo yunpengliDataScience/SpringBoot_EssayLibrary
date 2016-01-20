@@ -47,7 +47,7 @@
 			<p:separator />
 		</h:form>
 
-		<h1>Essay Data Table (View and Edit Essays)</h1>
+		<h1>Essay Data Table (Right click to edit or delete an essay.)</h1>
 		<h:form id="essayList">
 		
 			<p:contextMenu for="essayDataTable">
@@ -82,7 +82,7 @@
 			</p:commandButton>
 		</h:form>
 
-		<p:dialog header="Essay Form" id="essayDialogId" widgetVar="essayDialog" modal="true" >
+		<p:dialog header="Essay Form Dialog" id="essayDialogId" widgetVar="essayDialog" modal="true" >
 			<!-- Refresh components after dialog is closed. -->
 			<p:ajax event="close" update="@all" />
 	        
@@ -135,7 +135,7 @@
 						
 						<p:row>
 							<p:column>
-								<p:outputLabel for="myEditor" value="Content :" />
+								<p:outputLabel for="myEditor:inputText" value="Content :" />
 							</p:column>
 							<p:column>
 								

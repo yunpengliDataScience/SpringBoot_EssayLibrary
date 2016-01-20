@@ -55,7 +55,7 @@ public class EssayBean implements Serializable {
 
 		this.essay = essayService.getEssay(essayId);
 
-		return "essay";
+		return "essayInForm";
 	}
 
 	public String showEssay() {
@@ -83,7 +83,7 @@ public class EssayBean implements Serializable {
 	public String createNewEssay() {
 		this.essay = new Essay();
 
-		return "essay";
+		return "essayInForm";
 	}
 
 	public void initNewEssay() {
@@ -95,6 +95,13 @@ public class EssayBean implements Serializable {
 		essay = essayService.saveOrUpdate(essay);
 
 		return "essay";
+	}
+	
+	public String saveEssayInForm() {
+
+		essay = essayService.saveOrUpdate(essay);
+
+		return "essayInForm";
 	}
 
 	// TODO
