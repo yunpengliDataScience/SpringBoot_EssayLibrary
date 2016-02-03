@@ -2,6 +2,8 @@ package com.library.essay.services;
 
 import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +18,17 @@ import com.library.essay.persistence.repositories.EssayRepository;
 @Service(value = "essayService")
 @Transactional
 public class EssayServiceImp implements EssayService {
+
+	private static Whitelist whitelist;
+
+	static {
+		whitelist = Whitelist.relaxed();
+		whitelist.addAttributes("p", "style");
+		whitelist.addAttributes("span", "style");
+		whitelist.addAttributes("div", "style");
+		// remove hyperlink
+		whitelist.removeTags("a");
+	}
 
 	@Autowired
 	private EssayRepository essayRepository;
@@ -94,6 +107,13 @@ public class EssayServiceImp implements EssayService {
 	@Override
 	public Essay saveOrUpdate(Essay essay) {
 
+		String content = essay.getContent();
+		
+		// sans-serif is not found in jasperreports and may cause the crash of
+		// report generation. But SansSerif is supported.
+		content = this.sanitizeRichText(content.replace("sans-serif;", "SansSerif;"));
+		essay.setContent(content);
+
 		return essayRepository.save(essay);
 	}
 
@@ -116,4 +136,14 @@ public class EssayServiceImp implements EssayService {
 		this.essayRepository = essayRepository;
 	}
 
+	private String sanitizeRichText(String rawText) {
+		String sanitizedText = "";
+
+		if (rawText != null) {
+
+			sanitizedText = Jsoup.clean(rawText, whitelist);
+		}
+
+		return sanitizedText;
+	}
 }
