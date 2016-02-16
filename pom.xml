@@ -30,6 +30,7 @@
 		<jazzy.version>0.5.2-rtext-1.4.1-2</jazzy.version>
 		<jmyspell-core.version>1.0.0-beta-2</jmyspell-core.version>
 		<apache.directory.server.version>1.5.5</apache.directory.server.version>
+		<quartz.version>2.2.1</quartz.version>
 	</properties>
 
 	
@@ -264,6 +265,18 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-log4j</artifactId>
 		</dependency>  
+		
+		<!-- Quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-jobs</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
 
 	</dependencies>
 
