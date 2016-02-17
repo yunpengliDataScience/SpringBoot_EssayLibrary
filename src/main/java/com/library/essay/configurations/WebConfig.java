@@ -18,6 +18,7 @@ import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
 
+import com.library.essay.quartz.listeners.MyQuartzListener;
 import com.library.essay.reports.servlets.ReportServlet;
 import com.sun.faces.config.ConfigureListener;
 
@@ -81,6 +82,11 @@ public class WebConfig {
 	@Bean
 	public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
 		return new ServletListenerRegistrationBean<ConfigureListener>(new ConfigureListener());
+	}
+	
+	@Bean
+	public ServletListenerRegistrationBean<MyQuartzListener> myQuartzListener() {
+		return new ServletListenerRegistrationBean<MyQuartzListener>(new MyQuartzListener());
 	}
 
 	// Register OpenEntityManagerInViewFilter
