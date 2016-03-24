@@ -10,10 +10,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.library.essay.persistence.entities.Essay;
 import com.library.essay.persistence.repositories.EssayRepository;
+import com.library.essay.utils.search.EssaySearchSpecifications;
+import com.library.essay.utils.search.beans.EssaySearchCriteria;
 
 @Service(value = "essayService")
 @Transactional
@@ -53,6 +57,22 @@ public class EssayServiceImp implements EssayService {
 	@Override
 	public List<Essay> findEssaysByTitleContains(String titleSegment) {
 		return essayRepository.findEssays(titleSegment);
+	}
+
+	@Override
+	public List<Essay> searchEssays(EssaySearchCriteria essaySearchCriteria) {
+		String title = essaySearchCriteria.getTitle().trim();
+		String author = essaySearchCriteria.getAuthor().trim();
+		String content = essaySearchCriteria.getContent().trim();
+
+		Specification<Essay> titleSpec = EssaySearchSpecifications.titleContainsIgnoreCase(title);
+		Specification<Essay> authorSpec = EssaySearchSpecifications.authorContainsIgnoreCase(author);
+		Specification<Essay> contentSpec = EssaySearchSpecifications.contentContainsIgnoreCase(content);
+
+		List<Essay> searchResult = essayRepository
+				.findAll(Specifications.where(titleSpec).and(authorSpec).and(contentSpec));
+
+		return searchResult;
 	}
 
 	@Override
@@ -108,7 +128,7 @@ public class EssayServiceImp implements EssayService {
 	public Essay saveOrUpdate(Essay essay) {
 
 		String content = essay.getContent();
-		
+
 		// sans-serif is not found in jasperreports and may cause the crash of
 		// report generation. But SansSerif is supported.
 		content = this.sanitizeRichText(content.replace("sans-serif;", "SansSerif;"));

@@ -1,6 +1,7 @@
 package com.library.essay.faces.beans.controllers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,6 @@ import javax.faces.event.ActionEvent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.component.inputtext.InputText;
-import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import com.library.essay.persistence.entities.Essay;
 import com.library.essay.services.EssayService;
+import com.library.essay.utils.search.beans.EssaySearchCriteria;
 
 //This is the managed bean name that will be refered in xhtml pages. It acts as
 //a controller.
@@ -36,8 +37,14 @@ public class EssayBean implements Serializable {
 
 	private Essay essay;
 
+	private EssaySearchCriteria essaySearchCriteria;
+
+	private List<Essay> essaySearchResults;
+
 	public EssayBean() {
 		essay = new Essay();
+		essaySearchResults = new ArrayList<Essay>();
+		essaySearchCriteria = new EssaySearchCriteria();
 	}
 
 	public List<Essay> getEssays() {
@@ -96,12 +103,17 @@ public class EssayBean implements Serializable {
 
 		return "essay";
 	}
-	
+
 	public String saveEssayInForm() {
 
 		essay = essayService.saveOrUpdate(essay);
 
 		return "essayInForm";
+	}
+
+	public void searchEssays() {
+
+		essaySearchResults = essayService.searchEssays(essaySearchCriteria);
 	}
 
 	// TODO
@@ -149,6 +161,22 @@ public class EssayBean implements Serializable {
 
 	public void setEssay(Essay essay) {
 		this.essay = essay;
+	}
+
+	public EssaySearchCriteria getEssaySearchCriteria() {
+		return essaySearchCriteria;
+	}
+
+	public void setEssaySearchCriteria(EssaySearchCriteria essaySearchCriteria) {
+		this.essaySearchCriteria = essaySearchCriteria;
+	}
+
+	public List<Essay> getEssaySearchResults() {
+		return essaySearchResults;
+	}
+
+	public void setEssaySearchResults(List<Essay> essaySearchResults) {
+		this.essaySearchResults = essaySearchResults;
 	}
 
 }

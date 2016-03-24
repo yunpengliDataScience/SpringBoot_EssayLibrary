@@ -3,6 +3,7 @@ package com.library.essay.services;
 import java.util.List;
 
 import com.library.essay.persistence.entities.Essay;
+import com.library.essay.utils.search.beans.EssaySearchCriteria;
 
 public interface EssayService {
 
@@ -23,4 +24,6 @@ public interface EssayService {
 	List<Essay> findEssaysByAuthor(String author);
 
 	List<Essay> findEssaysByTitleContains(String titleSegment);
+
+	List<Essay> searchEssays(EssaySearchCriteria essaySearchCriteria);
 }
