@@ -20,87 +20,108 @@ import org.springframework.web.context.support.HttpRequestHandlerServlet;
 import com.library.essay.quartz.listeners.MyQuartzListener;
 import com.library.essay.reports.servlets.ReportServlet;
 import com.library.essay.tinymce.spellchecker.JazzySpellCheckerServlet;
+import com.library.essay.untils.filters.LoginFilter;
 import com.sun.faces.config.ConfigureListener;
+
 
 @Configuration
 public class WebConfig {
 
-	// Register FacesServlet
-	@Bean
-	public ServletRegistrationBean faceServletRegistrationBean() {
-		FacesServlet facesServlet = new FacesServlet();
-		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(facesServlet, "*.xhtml");
+  // Register FacesServlet
+  @Bean
+  public ServletRegistrationBean faceServletRegistrationBean() {
+    FacesServlet facesServlet = new FacesServlet();
+    ServletRegistrationBean servletRegistrationBean =
+        new ServletRegistrationBean(facesServlet, "*.xhtml");
 
-		servletRegistrationBean.setLoadOnStartup(1);
-		return servletRegistrationBean;
-	}
+    servletRegistrationBean.setLoadOnStartup(1);
+    return servletRegistrationBean;
+  }
 
-	// Register HttpRequestHandler
-	@Bean(name = "httpRequestHandlerServlet")
-	public HttpRequestHandler reportSpringBeanServlet() {
-		return new ReportServlet();
-	}
+  // Register HttpRequestHandler
+  @Bean(name = "httpRequestHandlerServlet")
+  public HttpRequestHandler reportSpringBeanServlet() {
+    return new ReportServlet();
+  }
 
-	// Register HttpRequestHandlerServlet that maps to /resport
-	@Bean
-	public ServletRegistrationBean httpRequestHandlerServletRegistrationBean() {
+  // Register HttpRequestHandlerServlet that maps to /resport
+  @Bean
+  public ServletRegistrationBean httpRequestHandlerServletRegistrationBean() {
 
-		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new HttpRequestHandlerServlet(),
-				"/report");
+    ServletRegistrationBean servletRegistrationBean =
+        new ServletRegistrationBean(new HttpRequestHandlerServlet(), "/report");
 
-		return servletRegistrationBean;
-	}
+    return servletRegistrationBean;
+  }
 
-	// Register Jazzy SpellChecker
-	@Bean
-	public ServletRegistrationBean jazzySpellCheckerServletRegistrationBean() {
-		JazzySpellCheckerServlet jazzySpellCheckerServlet = new JazzySpellCheckerServlet();
-		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(jazzySpellCheckerServlet,
-				"/servlet/jazzy-spellchecker");
+  // Register Jazzy SpellChecker
+  @Bean
+  public ServletRegistrationBean jazzySpellCheckerServletRegistrationBean() {
+    JazzySpellCheckerServlet jazzySpellCheckerServlet = new JazzySpellCheckerServlet();
+    ServletRegistrationBean servletRegistrationBean =
+        new ServletRegistrationBean(jazzySpellCheckerServlet, "/servlet/jazzy-spellchecker");
 
-		servletRegistrationBean.setLoadOnStartup(2);
-		return servletRegistrationBean;
-	}
+    servletRegistrationBean.setLoadOnStartup(2);
+    return servletRegistrationBean;
+  }
 
-	// Specify the welcome file.
-	@Bean
-	@ConditionalOnMissingBean(NonEmbeddedServletContainerFactory.class)
-	public EmbeddedServletContainerFactory embeddedServletContainerFactory() {
-		TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
+  // Specify the welcome file.
+  @Bean
+  @ConditionalOnMissingBean(NonEmbeddedServletContainerFactory.class)
+  public EmbeddedServletContainerFactory embeddedServletContainerFactory() {
+    TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
 
-		tomcat.addContextCustomizers(new TomcatContextCustomizer() {
-			@Override
-			public void customize(Context context) {
+    tomcat.addContextCustomizers(new TomcatContextCustomizer() {
+      @Override
+      public void customize(Context context) {
 
-				context.addWelcomeFile("pages/homePage.xhtml");
-			}
-		});
+        context.addWelcomeFile("pages/homePage.xhtml");
+      }
+    });
 
-		return tomcat;
-	}
+    return tomcat;
+  }
 
-	@Bean
-	public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
-		return new ServletListenerRegistrationBean<ConfigureListener>(new ConfigureListener());
-	}
-	
-	@Bean
-	public ServletListenerRegistrationBean<MyQuartzListener> myQuartzListener() {
-		return new ServletListenerRegistrationBean<MyQuartzListener>(new MyQuartzListener());
-	}
+  @Bean
+  public ServletListenerRegistrationBean<ConfigureListener> jsfConfigureListener() {
+    return new ServletListenerRegistrationBean<ConfigureListener>(new ConfigureListener());
+  }
 
-	// Register OpenEntityManagerInViewFilter
-	@Bean
-	public FilterRegistrationBean openEntityManagerInViewFilterRegistrationBean() {
+  @Bean
+  public ServletListenerRegistrationBean<MyQuartzListener> myQuartzListener() {
+    return new ServletListenerRegistrationBean<MyQuartzListener>(new MyQuartzListener());
+  }
 
-		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+  // Register OpenEntityManagerInViewFilter
+  @Bean
+  public FilterRegistrationBean openEntityManagerInViewFilterRegistrationBean() {
 
-		OpenEntityManagerInViewFilter openEntityManagerInViewFilter = new OpenEntityManagerInViewFilter();
+    FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
 
-		filterRegistrationBean.setFilter(openEntityManagerInViewFilter);
-		filterRegistrationBean.addUrlPatterns("/*");
-		filterRegistrationBean.setOrder(1);
+    OpenEntityManagerInViewFilter openEntityManagerInViewFilter =
+        new OpenEntityManagerInViewFilter();
 
-		return filterRegistrationBean;
-	}
+    filterRegistrationBean.setFilter(openEntityManagerInViewFilter);
+    filterRegistrationBean.addUrlPatterns("/*");
+    filterRegistrationBean.setOrder(1);
+
+    return filterRegistrationBean;
+  }
+
+
+
+  // Register LoginFilter
+  @Bean
+  public FilterRegistrationBean loginFilterRegistrationBean() {
+
+    FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+
+    LoginFilter loginFilter = new LoginFilter();
+
+    filterRegistrationBean.setFilter(loginFilter);
+    filterRegistrationBean.addUrlPatterns("/*");
+    filterRegistrationBean.setOrder(2);
+
+    return filterRegistrationBean;
+  }
 }

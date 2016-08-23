@@ -7,8 +7,4 @@
 		</el-resolver>
 	</application>
 
-	<lifecycle>
-		<phase-listener>com.library.essay.faces.beans.controllers.LoginController
-		</phase-listener>
-	</lifecycle>
 </faces-config>

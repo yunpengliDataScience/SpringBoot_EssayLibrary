@@ -13,7 +13,9 @@
 		<br />
 		<h:outputLink value="#{request.contextPath}/pages/homePage.xhtml">Home</h:outputLink>
 		<br/>
-		<h:outputLink value="#{request.contextPath}/pages/logout">Logout</h:outputLink>
+		<h:form>
+			<p:commandLink value="Logout" action="#{loginBean.doLogout()}" ajax="false"/>
+		</h:form>
 		<span><h1>Introduction</h1></span>
 		<br/>
 		<p><h2>Writing an essay should not be too tough!</h2></p>

@@ -5,7 +5,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:myEditor="http://java.sun.com/jsf/composite/components">
 <h:head>
 	<h:outputStylesheet library="css" name="table-style.css" />
@@ -19,7 +18,9 @@
 		<br />
 		<h:outputLink value="#{request.contextPath}/pages/homePage.xhtml">Home</h:outputLink>
 		<br/>
-		<h:outputLink value="#{request.contextPath}/pages/logout">Logout</h:outputLink>
+		<h:form>
+			<p:commandLink value="Logout" action="#{loginBean.doLogout()}" ajax="false"/>
+		</h:form>
 		<br /> <br /> <br />
 		
 		<p:outputLabel value="My Preferred Theme" />
@@ -62,10 +63,6 @@
 			</p:dataTable>
 
 		</h:form>
-		
-		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-			ONLY ADMIN USER CAN SEE THIS TEXT !
-		</sec:authorize>
 		
 		<h1>Essay Form</h1>
 		<h:form id="essay" rendered="#{essayBean.essay!=null}">
@@ -117,10 +114,6 @@
 						
 			</p:panelGrid>
 
-			<!-- Only admin can see the Save button -->
-			<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-				<p:commandButton value="Save" action="#{essayBean.saveEssay()}" ajax="false"/>
-			</sec:authorize>
 			
 			<p:button value="Report"
 				onclick="window.open('#{request.contextPath}/report?essayId=#{essayBean.essay.id}', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />

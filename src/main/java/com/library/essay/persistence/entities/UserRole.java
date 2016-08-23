@@ -10,52 +10,58 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "USER_ROLE")
 public class UserRole implements Serializable {
 
-	@Id
-	@Column(name = "USER_ROLE_ID")
-	@GeneratedValue
-	private Long id;
+  public static String ROLE_ADMIN = "ROLE_ADMIN";
+  public static String ROLE_SUPER = "ROLE_SUPER";
+  public static String ROLE_USER = "ROLE_USER";
 
-	@ManyToOne
-	@JoinColumn(name = "USER_ID")
-	private User user;
+  @Id
+  @Column(name = "USER_ROLE_ID")
+  @GeneratedValue
+  private Long id;
 
-	@Column(name = "ROLE")
-	private String role;
+  @ManyToOne
+  @JoinColumn(name = "USER_ID")
+  private User user;
 
-	public Long getId() {
-		return id;
-	}
+  @Column(name = "ROLE")
+  private String role;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public User getUser() {
-		return user;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setUser(User user) {
-		this.user = user;
+  public User getUser() {
+    return user;
+  }
 
-		if (!user.getRoles().contains(this)) {
-			user.getRoles().add(this);
-		}
-	}
+  public void setUser(User user) {
+    this.user = user;
 
-	public String getRole() {
-		return role;
-	}
+    if (!user.getRoles().contains(this)) {
+      user.getRoles().add(this);
+    }
+  }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+  public String getRole() {
+    return role;
+  }
 
-	@Override
-	public String toString() {
-		return role;
-	}
+  public void setRole(String role) {
+    this.role = role;
+  }
+
+  @Override
+  public String toString() {
+    return role;
+  }
+
 }

@@ -61,17 +61,6 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		
-		<dependency>
-	      <groupId>org.springframework.security</groupId>
-	      <artifactId>spring-security-ldap</artifactId>
-	      <scope>runtime</scope>
-	    </dependency>
-	    
 	    <!-- Apache Directory -->
 	    <dependency>
 	      <groupId>org.apache.directory.server</groupId>
@@ -154,19 +143,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
-		</dependency>
-		
-		<!-- Spring Security Facelets Tag Library Support -->
-	    <dependency>
-			<groupId>org.springframework.webflow</groupId>
-			<artifactId>spring-faces</artifactId>
-			<version>2.4.2.RELEASE</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-taglibs</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		
 		<!-- EL 3.0.0 to support method parameter in EL -->

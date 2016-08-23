@@ -6,13 +6,15 @@ import com.library.essay.persistence.entities.User;
 
 public interface UserService {
 
-	User getUser(String userName);
+  User getUser(String userName);
 
-	List<User> getUsers();
+  List<User> getUsers();
 
-	User saveOrUpdate(User user);
+  User saveOrUpdate(User user);
 
-	void delete(User user);
+  void delete(User user);
 
-	void deleteAll();
+  void deleteAll();
+
+  User authenticate(String userName, String password);
 }

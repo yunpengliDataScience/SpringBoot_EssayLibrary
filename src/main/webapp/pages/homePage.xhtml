@@ -19,32 +19,34 @@
 		<br/>
 		<br/>
 		<br/>
-		<h:outputLink value="#{request.contextPath}/pages/logout">Logout</h:outputLink>
+		<h:form>
+			<p:commandLink value="Logout" action="#{loginBean.doLogout()}" ajax="false"/>
+		</h:form>
 		<br/><br/><br/>
 		<table>
 			<tr>
 				<td>
-					<h:outputLink value="#{request.contextPath}/pages/admin/searchEssay.xhtml" >Search Essays (Only for Admin Users)</h:outputLink>
+					<h:outputLink value="#{request.contextPath}/pages/admin/searchEssay.xhtml" rendered="#{loginBean.hasRole('ROLE_ADMIN')}">Search Essays (Only for Admin Users)</h:outputLink>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<h:outputLink value="#{request.contextPath}/pages/admin/essayInForm.xhtml" >Create and Edit Essay in a Form (Only for Admin Users)</h:outputLink>
+					<h:outputLink value="#{request.contextPath}/pages/admin/essayInForm.xhtml" rendered="#{loginBean.hasRole('ROLE_ADMIN')}">Create and Edit Essay in a Form (Only for Admin Users)</h:outputLink>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<h:outputLink value="#{request.contextPath}/pages/admin/essay.xhtml" >Create and Edit Essay in a Dialog (Only for Admin Users)</h:outputLink>
+					<h:outputLink value="#{request.contextPath}/pages/admin/essay.xhtml" rendered="#{loginBean.hasRole('ROLE_ADMIN')}">Create and Edit Essay in a Dialog (Only for Admin Users)</h:outputLink>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<h:outputLink value="#{request.contextPath}/pages/superUser/essay2.xhtml" >View Essays (For Super Users)</h:outputLink>
+					<h:outputLink value="#{request.contextPath}/pages/superUser/essay2.xhtml" rendered="#{loginBean.hasRole('ROLE_SUPER')}">View Essays (For Super Users)</h:outputLink>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<h:outputLink value="#{request.contextPath}/pages/public/introduction.xhtml" >Introduction (For Everyone)</h:outputLink>
+					<h:outputLink value="#{request.contextPath}/pages/public/introduction.xhtml" rendered="#{loginBean.hasRole('ROLE_USER')}">Introduction (For Every User)</h:outputLink>
 				</td>
 			</tr>
 		</table>

@@ -6,25 +6,31 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<h:outputStylesheet library="primefaces-#{themeSwitcherBean.theme}" name="theme.css" />
+	<h:outputStylesheet library="primefaces-#{themeSwitcherBean.theme}"
+		name="theme.css" />
 </h:head>
 <h:body>
+
 	<center>
 		<br />
-		<h2>Login Form</h2>
+
+		<h2>Essay Library Login Form</h2>
 
 		<h:form prependId="false" id="form">
-			<h:messages globalOnly="true" style="color:red"/>
-			<p:panelGrid columns="3" style="border-bottom-width: 0px;">
-				<h:outputText value="User:" />
-				<p:inputText value="#{loginController.user}" id="username" />
-				<h:message for="username" display="text" style="color:red" />
+
+			<p:messages severity="fatal, error, info" showDetail="true"
+				showSummary="true" autoUpdate="true" closable="true" />
+
+			<p:panelGrid columns="2" style="border-bottom-width: 0px;">
+
+				<h:outputText value="User Name:" />
+				<p:inputText value="#{loginBean.username}" id="username" />
 
 				<h:outputText value="Password:" />
-				<p:password value="#{loginController.password}" id="password" />
-				<h:message for="password" display="text" style="color:red" />
+				<p:password value="#{loginBean.password}" id="password" />
+
 			</p:panelGrid>
-			<p:commandButton action="#{loginController.login}" value="Login"
+			<p:commandButton action="#{loginBean.doLogin}" value="Login"
 				ajax="false" />
 		</h:form>
 

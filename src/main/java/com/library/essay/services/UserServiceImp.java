@@ -13,32 +13,38 @@ import com.library.essay.persistence.repositories.UserRepository;
 @Transactional
 public class UserServiceImp implements UserService {
 
-	@Autowired
-	private UserRepository userRepository;
+  @Autowired
+  private UserRepository userRepository;
 
-	@Override
-	public User getUser(String userName) {
-		return userRepository.findByUserName(userName);
-	}
+  @Override
+  public User getUser(String userName) {
+    return userRepository.findByUserName(userName);
+  }
 
-	@Override
-	public List<User> getUsers() {
-		return userRepository.findAll();
-	}
+  @Override
+  public User authenticate(String userName, String password) {
 
-	@Override
-	public User saveOrUpdate(User user) {
-		return userRepository.save(user);
-	}
+    return userRepository.findByUserNameAndPassword(userName, password);
+  }
 
-	@Override
-	public void delete(User user) {
-		userRepository.delete(user);
-	}
+  @Override
+  public List<User> getUsers() {
+    return userRepository.findAll();
+  }
 
-	@Override
-	public void deleteAll() {
-		userRepository.deleteAll();
-	}
+  @Override
+  public User saveOrUpdate(User user) {
+    return userRepository.save(user);
+  }
+
+  @Override
+  public void delete(User user) {
+    userRepository.delete(user);
+  }
+
+  @Override
+  public void deleteAll() {
+    userRepository.deleteAll();
+  }
 
 }
