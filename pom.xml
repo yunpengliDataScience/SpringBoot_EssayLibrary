@@ -69,7 +69,6 @@
 		<dependency>
 	      <groupId>org.springframework.security</groupId>
 	      <artifactId>spring-security-ldap</artifactId>
-	      <scope>runtime</scope>
 	    </dependency>
 	    
 	    <!-- Apache Directory -->

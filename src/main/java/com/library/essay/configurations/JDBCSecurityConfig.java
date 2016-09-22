@@ -26,7 +26,7 @@ public class JDBCSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		
-				.antMatchers("/javax.faces.resource/**", "/pages/public/**", "/pages/homePage.xhtml", "/pages/logout").permitAll()
+				.antMatchers("/javax.faces.resource/**", "/pages/public/**", "/pages/logout").permitAll()
 				.antMatchers("/pages/admin/**").hasAuthority("ROLE_ADMIN")
 				.antMatchers("/pages/superUser/**").hasAuthority("ROLE_SUPER")
 				.anyRequest().authenticated()
@@ -36,7 +36,7 @@ public class JDBCSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .logout()
                 	.logoutUrl("/pages/logout")
-                	.logoutSuccessUrl("/pages/homePage.xhtml")
+                	.logoutSuccessUrl("/pages/public/loginPage.xhtml")
                 	.invalidateHttpSession(true);
 	}
 
