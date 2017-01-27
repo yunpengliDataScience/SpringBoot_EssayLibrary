@@ -20,163 +20,178 @@ import org.springframework.stereotype.Component;
 
 import com.library.essay.persistence.entities.Essay;
 import com.library.essay.services.EssayService;
+import com.library.essay.services.FullTextSearchIndexService;
 import com.library.essay.utils.search.beans.EssaySearchCriteria;
 
-//This is the managed bean name that will be refered in xhtml pages. It acts as
-//a controller.
+// This is the managed bean name that will be refered in xhtml pages. It acts as
+// a controller.
 
 @Component("essayBean")
 @Scope("session")
 public class EssayBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private Logger logger = LoggerFactory.getLogger(getClass());
+  private static final long serialVersionUID = 1L;
+  private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	private EssayService essayService;
+  @Autowired
+  private EssayService essayService;
 
-	private Essay essay;
+  @Autowired
+  private FullTextSearchIndexService fullTextSearchIndexService;
 
-	private EssaySearchCriteria essaySearchCriteria;
+  private Essay essay;
 
-	private List<Essay> essaySearchResults;
+  private EssaySearchCriteria essaySearchCriteria;
 
-	public EssayBean() {
-		essay = new Essay();
-		essaySearchResults = new ArrayList<Essay>();
-		essaySearchCriteria = new EssaySearchCriteria();
-	}
+  private List<Essay> essaySearchResults;
 
-	public List<Essay> getEssays() {
+  public EssayBean() {
+    essay = new Essay();
+    essaySearchResults = new ArrayList<Essay>();
+    essaySearchCriteria = new EssaySearchCriteria();
+  }
 
-		logger.debug("getEssays() is called!");
-		return essayService.getEssays();
-	}
+  public List<Essay> getEssays() {
 
-	public String showEssayAdmin() {
+    logger.debug("getEssays() is called!");
+    return essayService.getEssays();
+  }
 
-		FacesContext fc = FacesContext.getCurrentInstance();
+  public String showEssayAdmin() {
 
-		String essayIdStr = this.getEssayId(fc);
-		long essayId = Long.parseLong(essayIdStr);
+    FacesContext fc = FacesContext.getCurrentInstance();
 
-		this.essay = essayService.getEssay(essayId);
+    String essayIdStr = this.getEssayId(fc);
+    long essayId = Long.parseLong(essayIdStr);
 
-		return "essayInForm";
-	}
+    this.essay = essayService.getEssay(essayId);
 
-	public String showEssay() {
+    return "essayInForm";
+  }
 
-		FacesContext fc = FacesContext.getCurrentInstance();
+  public String showEssay() {
 
-		String essayIdStr = this.getEssayId(fc);
-		long essayId = Long.parseLong(essayIdStr);
+    FacesContext fc = FacesContext.getCurrentInstance();
 
-		this.essay = essayService.getEssay(essayId);
+    String essayIdStr = this.getEssayId(fc);
+    long essayId = Long.parseLong(essayIdStr);
 
-		return "essay2";
-	}
+    this.essay = essayService.getEssay(essayId);
 
-	// get value from "f:param"
-	private String getEssayId(FacesContext fc) {
+    return "essay2";
+  }
 
-		// Use FacesContext to get the parameters passed from <f:param>
-		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+  // get value from "f:param"
+  private String getEssayId(FacesContext fc) {
 
-		return params.get("essayId");
+    // Use FacesContext to get the parameters passed from <f:param>
+    Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
 
-	}
+    return params.get("essayId");
 
-	public String createNewEssay() {
-		this.essay = new Essay();
+  }
 
-		return "essayInForm";
-	}
+  public String createNewEssay() {
+    this.essay = new Essay();
 
-	public void initNewEssay() {
-		this.essay = new Essay();
-	}
+    return "essayInForm";
+  }
 
-	public String saveEssay() {
+  public void initNewEssay() {
+    this.essay = new Essay();
+  }
 
-		essay = essayService.saveOrUpdate(essay);
+  public String saveEssay() {
 
-		return "essay";
-	}
+    essay = essayService.saveOrUpdate(essay);
 
-	public String saveEssayInForm() {
+    return "essay";
+  }
 
-		essay = essayService.saveOrUpdate(essay);
+  public String saveEssayInForm() {
 
-		return "essayInForm";
-	}
+    essay = essayService.saveOrUpdate(essay);
 
-	public void searchEssays() {
+    return "essayInForm";
+  }
 
-		essaySearchResults = essayService.searchEssays(essaySearchCriteria);
-	}
+  public void searchEssays() {
 
-	// TODO
-	public void validateAndSaveEssay(ActionEvent ae) {
-		RequestContext requestContext = RequestContext.getCurrentInstance();
-		String message;
-		FacesMessage.Severity severity;
-		InputText titleInput = (InputText) ae.getComponent().findComponent("title");
+    essaySearchResults = essayService.searchEssays(essaySearchCriteria);
+  }
 
-		if (essay.getTitle() != null && StringUtils.trimToNull(essay.getTitle()) != null) {
-			message = "Archived.";
-			severity = FacesMessage.SEVERITY_INFO;
-			requestContext.addCallbackParam("titleValid", true);
-			titleInput.setValid(true);
+  public void fullTextSearchEssays() {
 
-		} else {
-			message = "Title is required!";
-			severity = FacesMessage.SEVERITY_ERROR;
-			requestContext.addCallbackParam("titleValid", false);
-			titleInput.setValid(false);
-		}
-		FacesMessage msg = new FacesMessage(severity, message, null);
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+    String keywords = essaySearchCriteria.getKeywords().trim();
 
-	public String deleteEssay() {
+    essaySearchResults = fullTextSearchIndexService.searchFullText(keywords);
+  }
 
-		essayService.delete(essay);
-		this.essay = new Essay();
+  public void rebuildFullTextSearchIndex() {
+    fullTextSearchIndexService.buildfullTextSearchIndex();
+  }
 
-		return "essay";
-	}
+  // TODO
+  public void validateAndSaveEssay(ActionEvent ae) {
+    RequestContext requestContext = RequestContext.getCurrentInstance();
+    String message;
+    FacesMessage.Severity severity;
+    InputText titleInput = (InputText) ae.getComponent().findComponent("title");
 
-	public EssayService getEssayService() {
-		return essayService;
-	}
+    if (essay.getTitle() != null && StringUtils.trimToNull(essay.getTitle()) != null) {
+      message = "Archived.";
+      severity = FacesMessage.SEVERITY_INFO;
+      requestContext.addCallbackParam("titleValid", true);
+      titleInput.setValid(true);
 
-	public void setEssayService(EssayService essayService) {
-		this.essayService = essayService;
-	}
+    } else {
+      message = "Title is required!";
+      severity = FacesMessage.SEVERITY_ERROR;
+      requestContext.addCallbackParam("titleValid", false);
+      titleInput.setValid(false);
+    }
+    FacesMessage msg = new FacesMessage(severity, message, null);
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+  }
 
-	public Essay getEssay() {
-		return essay;
-	}
+  public String deleteEssay() {
 
-	public void setEssay(Essay essay) {
-		this.essay = essay;
-	}
+    essayService.delete(essay);
+    this.essay = new Essay();
 
-	public EssaySearchCriteria getEssaySearchCriteria() {
-		return essaySearchCriteria;
-	}
+    return "essay";
+  }
 
-	public void setEssaySearchCriteria(EssaySearchCriteria essaySearchCriteria) {
-		this.essaySearchCriteria = essaySearchCriteria;
-	}
+  public EssayService getEssayService() {
+    return essayService;
+  }
 
-	public List<Essay> getEssaySearchResults() {
-		return essaySearchResults;
-	}
+  public void setEssayService(EssayService essayService) {
+    this.essayService = essayService;
+  }
 
-	public void setEssaySearchResults(List<Essay> essaySearchResults) {
-		this.essaySearchResults = essaySearchResults;
-	}
+  public Essay getEssay() {
+    return essay;
+  }
+
+  public void setEssay(Essay essay) {
+    this.essay = essay;
+  }
+
+  public EssaySearchCriteria getEssaySearchCriteria() {
+    return essaySearchCriteria;
+  }
+
+  public void setEssaySearchCriteria(EssaySearchCriteria essaySearchCriteria) {
+    this.essaySearchCriteria = essaySearchCriteria;
+  }
+
+  public List<Essay> getEssaySearchResults() {
+    return essaySearchResults;
+  }
+
+  public void setEssaySearchResults(List<Essay> essaySearchResults) {
+    this.essaySearchResults = essaySearchResults;
+  }
 
 }

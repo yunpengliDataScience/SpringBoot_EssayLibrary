@@ -57,7 +57,7 @@ public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter 
     provider.setConvertSubErrorCodesToExceptions(true);
     provider.setUseAuthenticationRequestCredentials(true);
 
-    // Inject customized UserDetailsContextMapper
+    // Inject customized UserDetailsContextMapper to capture more user detail info.
     provider.setUserDetailsContextMapper(activeDirectoryUserDetailsContextMapper());
 
     return provider;
@@ -71,6 +71,7 @@ public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter 
   @Bean
   public UserDetailsContextMapper activeDirectoryUserDetailsContextMapper() {
 
+    // LdapUserDetailsMapper is the base class for mapping user info from directory context.
     return new LdapUserDetailsMapper() {
 
       @Override
@@ -80,6 +81,8 @@ public class ActiveDirectorySecurityConfig extends WebSecurityConfigurerAdapter 
         LdapUserDetails ldapUserDetails =
             (LdapUserDetails) super.mapUserFromContext(ctx, username, authorities);
 
+        // ActiveDirectoryUserDetails is the wraper of LdapUserDetails and contains extra user
+        // attributes.
         ActiveDirectoryUserDetails activeDirectoryUserDetails =
             new ActiveDirectoryUserDetails(ldapUserDetails);
 

@@ -59,6 +59,7 @@ public class EssayServiceImp implements EssayService {
 		return essayRepository.findEssays(titleSegment);
 	}
 
+	//Search by Specification
 	@Override
 	public List<Essay> searchEssays(EssaySearchCriteria essaySearchCriteria) {
 		String title = essaySearchCriteria.getTitle().trim();
@@ -74,6 +75,7 @@ public class EssayServiceImp implements EssayService {
 
 		return searchResult;
 	}
+	
 
 	@Override
 	public List<Essay> getEssays(String sortProperty, boolean isAsc) {

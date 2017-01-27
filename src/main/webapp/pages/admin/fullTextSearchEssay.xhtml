@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:myEditor="http://java.sun.com/jsf/composite/components">
+<h:head>
+	<h:outputStylesheet library="css" name="table-style.css" />
+	<h:outputStylesheet library="primefaces-#{themeSwitcherBean.theme}" name="theme.css" />
+	
+	
+	<h:outputScript id="handleCompleteScript" target="body">
+		function handleComplete(xhr, status, args) {
+			if (args &amp;&amp; !args.validationFailed) {
+				
+				PF('essayDialog').hide();
+				
+			}
+		}
+	</h:outputScript>
+</h:head>
+
+<h:body>
+
+	<center>
+		<br />
+		<h:outputLink value="#{request.contextPath}/pages/homePage.xhtml">Home</h:outputLink>
+		<br/>
+		<h:outputLink value="#{request.contextPath}/pages/logout">Logout</h:outputLink>
+		<br /> <br /> <br />
+		
+		<!-- Theme Form -->
+		<p:outputLabel value="My Preferred Theme" />
+
+		<br /> <br /> <br />
+		<h:form id="form-theme">
+			<p:themeSwitcher id="defaultSwitcher"
+				value="#{themeSwitcherBean.theme}">
+
+				<f:selectItem itemLabel="Choose Theme" itemValue="" />
+				<f:selectItems value="#{themeSwitcherBean.themes}" />
+				<p:ajax listener="#{themeSwitcherBean.saveTheme}" />
+
+			</p:themeSwitcher>
+
+			<p:separator />
+		</h:form>
+
+		<!-- Essay Search Form -->
+		<h1>Essay Full Text Search Form</h1>
+		<h:form id="essaySearchForm">
+			<p:panelGrid>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="keywords" value="Keywords :" />
+					</p:column>
+					<p:column>
+						<p:inputText id="keywords"
+							value="#{essayBean.essaySearchCriteria.keywords}"
+							size="50"/>
+					</p:column>
+				</p:row>			
+								
+			</p:panelGrid>
+			<p:commandButton value="Search" action="#{essayBean.fullTextSearchEssays()}" ajax="false"/>
+			<p:commandButton value="Rebuild Index" action="#{essayBean.rebuildFullTextSearchIndex()}" ajax="false"/>		
+		</h:form>
+		
+		
+		<!-- Essay Search Result Table -->
+		<h1>Essay Search Result Table (Right click to edit or delete an essay.)</h1>
+		<h:form id="essayList">
+		
+			<p:contextMenu for="essayDataTable">
+		        <p:menuitem value="Edit" update="essayDialogId" oncomplete="PF('essayDialog').show()">
+		        	<p:resetInput target="essayDialogId" />
+		        </p:menuitem>
+		       	<p:menuitem value="Delete" onclick="PF('cd').show()"/>
+		    </p:contextMenu>
+    
+			<p:dataTable id="essayDataTable" value="#{essayBean.getEssaySearchResults()}" var="essay" selection="#{essayBean.essay}" selectionMode="single" rowKey="#{essay.id}">
+				<f:facet name="header">
+			        Essay Data Table
+				</f:facet>
+				
+				<p:column headerText="Essay ID">
+					<h:commandLink action="#{essayBean.showEssayAdmin()}"
+						value="#{essay.id}">
+						<f:param name="essayId" value="#{essay.id}" />
+					</h:commandLink>
+				</p:column>
+
+				<p:column headerText="Title">
+					<h:outputText value="#{essay.title}" />   				
+    			</p:column>
+
+				<p:column headerText="Author">
+					<h:outputText value="#{essay.author}" /> 
+    			</p:column>
+			</p:dataTable>
+			<!--  
+			<p:commandButton value="Create New"  oncomplete="PF('essayDialog').show()" actionListener="#{essayBean.initNewEssay()}" update="essayDialogId">
+				<p:resetInput target="essayDialogId" />
+			</p:commandButton>
+			-->
+		</h:form>
+
+		<p:dialog header="Essay Form Dialog" id="essayDialogId" widgetVar="essayDialog" modal="true" >
+			<!-- Refresh components after dialog is closed. -->
+			<p:ajax event="close" update="@all" />
+	        
+	        <p:outputPanel id="essayDetail" style="text-align:center;">
+	   			
+                <h:form id="essayForm" rendered="#{essayBean.essay!=null}">
+					<myEditor:loadMyTinyMCE />
+					<h:inputHidden value="#{essayBean.essay.id}" />
+		
+					<p:panelGrid>
+					
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Id :" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{essayBean.essay.id}"/>
+							</p:column>
+							<p:column>
+								<h:outputText value=""/>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel for="title" value="Title :" />
+							</p:column>
+							<p:column>
+								<p:inputText id="title"
+									value="#{essayBean.essay.title}"
+									size="50" required="true"/>
+							</p:column>
+							<p:column>
+								<h:message for="title" style="color:red" />
+							</p:column>
+						</p:row>
+						
+						<p:row>
+							<p:column>
+								<p:outputLabel for="author" value="Author :" />
+							</p:column>
+							<p:column>
+								<p:inputText id="author"
+									value="#{essayBean.essay.author}"
+									size="50" required="true"/>
+							</p:column>
+							<p:column>
+								<h:message for="author" style="color:red" />
+							</p:column>
+						</p:row>
+						
+						<p:row>
+							<p:column>
+								<p:outputLabel for="myEditor:inputText" value="Content :" />
+							</p:column>
+							<p:column>
+								
+								<myEditor:myTinyMCE id="myEditor" value="#{essayBean.essay.content}">
+									<f:validateRequired for="inputText"/>
+								</myEditor:myTinyMCE>
+							</p:column>
+							<p:column>
+								<h:message for="inputText" style="color:red" />
+							</p:column>
+						</p:row>
+								
+					</p:panelGrid>
+		
+					<!-- Call tinyMCE.triggerSave() to send data in a rich text area embedded in a dialog! -->
+					<p:commandButton value="Save" onclick="tinyMCE.triggerSave();"
+										actionListener="#{essayBean.saveEssay}" 
+										oncomplete="handleComplete(xhr, status, args)" 
+										process="@form" 
+										update="essayForm"/>  <!-- Need to update form to show validation messages -->
+					
+					<p:button value="Report"
+						onclick="window.open('#{request.contextPath}/report?essayId=#{essayBean.essay.id}', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
+		
+				</h:form>
+
+	        </p:outputPanel>
+	    </p:dialog>
+		<p:confirmDialog
+			message="Are you sure about deleting this essay?"
+			header="Initiating delete process" severity="alert" widgetVar="cd">
+			<h:form>
+				<p:commandButton value="Yes Sure"
+					action="#{essayBean.deleteEssay()}"
+					oncomplete="PF('cd').hide()" ajax="false" />
+				<p:commandButton value="Not Yet" onclick="PF('cd').hide();"
+					type="button" />
+			</h:form>
+		</p:confirmDialog>
+	</center>
+</h:body>
+
+</html>

@@ -9,23 +9,32 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
 @Entity
 @Table(name = "Essay")
+@Indexed
 public class Essay implements Serializable {
 
 	@Id
 	@Column(name = "ESSAY_ID")
 	@GeneratedValue
+	@DocumentId
 	private Long id;
 
 	@Column(name = "TITLE")
+	@Field
 	private String title;
 
 	@Column(name = "AUTHOR")
+	@Field
 	private String author;
 
 	@Lob
 	@Column(name = "CONTENT")
+	@Field
 	private String content;
 
 	public Long getId() {

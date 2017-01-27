@@ -87,6 +87,13 @@ public class JPARepositoryConfig {
 			// that is written to the console.
 			jpaProperties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
 
+			// Hibernate Search properties
+		    jpaProperties.put("hibernate.search.default.directory_provider",
+		        environment.getRequiredProperty("hibernate.search.default.directory_provider"));
+
+		    jpaProperties.put("hibernate.search.default.indexBase",
+		        environment.getRequiredProperty("hibernate.search.default.indexBase"));
+		    
 			entityManagerFactoryBean.setJpaProperties(jpaProperties);
 
 			return entityManagerFactoryBean;
