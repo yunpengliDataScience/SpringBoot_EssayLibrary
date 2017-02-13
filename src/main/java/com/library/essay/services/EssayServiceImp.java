@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.library.essay.persistence.entities.Essay;
 import com.library.essay.persistence.repositories.EssayRepository;
+import com.library.essay.reports.beans.AuthorEssayCountBean;
 import com.library.essay.utils.search.EssaySearchSpecifications;
 import com.library.essay.utils.search.beans.EssaySearchCriteria;
 
@@ -23,149 +24,155 @@ import com.library.essay.utils.search.beans.EssaySearchCriteria;
 @Transactional
 public class EssayServiceImp implements EssayService {
 
-	private static Whitelist whitelist;
+  private static Whitelist whitelist;
 
-	static {
-		whitelist = Whitelist.relaxed();
-		whitelist.addAttributes("p", "style");
-		whitelist.addAttributes("span", "style");
-		whitelist.addAttributes("div", "style");
-		// remove hyperlink
-		whitelist.removeTags("a");
-	}
+  static {
+    whitelist = Whitelist.relaxed();
+    whitelist.addAttributes("p", "style");
+    whitelist.addAttributes("span", "style");
+    whitelist.addAttributes("div", "style");
+    // remove hyperlink
+    whitelist.removeTags("a");
+  }
 
-	@Autowired
-	private EssayRepository essayRepository;
+  @Autowired
+  private EssayRepository essayRepository;
 
-	@Override
-	public Essay getEssay(long id) {
+  @Override
+  public Essay getEssay(long id) {
 
-		return essayRepository.findOne(id);
-	}
+    return essayRepository.findOne(id);
+  }
 
-	@Override
-	public List<Essay> getEssays() {
+  @Override
+  public List<Essay> getEssays() {
 
-		return essayRepository.findAll();
-	}
+    return essayRepository.findAll();
+  }
 
-	@Override
-	public List<Essay> findEssaysByAuthor(String author) {
-		return essayRepository.findByAuthor(author);
-	}
+  @Override
+  public List<Essay> findEssaysByAuthor(String author) {
+    return essayRepository.findByAuthor(author);
+  }
 
-	@Override
-	public List<Essay> findEssaysByTitleContains(String titleSegment) {
-		return essayRepository.findEssays(titleSegment);
-	}
+  @Override
+  public List<Essay> findEssaysByTitleContains(String titleSegment) {
+    return essayRepository.findEssays(titleSegment);
+  }
 
-	//Search by Specification
-	@Override
-	public List<Essay> searchEssays(EssaySearchCriteria essaySearchCriteria) {
-		String title = essaySearchCriteria.getTitle().trim();
-		String author = essaySearchCriteria.getAuthor().trim();
-		String content = essaySearchCriteria.getContent().trim();
+  @Override
+  public List<AuthorEssayCountBean> countEssayByAuthor() {
+    return essayRepository.countEssayByAuthor();
+  }
 
-		Specification<Essay> titleSpec = EssaySearchSpecifications.titleContainsIgnoreCase(title);
-		Specification<Essay> authorSpec = EssaySearchSpecifications.authorContainsIgnoreCase(author);
-		Specification<Essay> contentSpec = EssaySearchSpecifications.contentContainsIgnoreCase(content);
+  // Search by Specification
+  @Override
+  public List<Essay> searchEssays(EssaySearchCriteria essaySearchCriteria) {
+    String title = essaySearchCriteria.getTitle().trim();
+    String author = essaySearchCriteria.getAuthor().trim();
+    String content = essaySearchCriteria.getContent().trim();
 
-		List<Essay> searchResult = essayRepository
-				.findAll(Specifications.where(titleSpec).and(authorSpec).and(contentSpec));
+    Specification<Essay> titleSpec = EssaySearchSpecifications.titleContainsIgnoreCase(title);
+    Specification<Essay> authorSpec = EssaySearchSpecifications.authorContainsIgnoreCase(author);
+    Specification<Essay> contentSpec = EssaySearchSpecifications.contentContainsIgnoreCase(content);
 
-		return searchResult;
-	}
-	
+    List<Essay> searchResult =
+        essayRepository.findAll(Specifications.where(titleSpec).and(authorSpec).and(contentSpec));
 
-	@Override
-	public List<Essay> getEssays(String sortProperty, boolean isAsc) {
+    return searchResult;
+  }
 
-		Direction direction = null;
 
-		if (isAsc) {
-			direction = Sort.Direction.ASC;
-		} else {
-			direction = Sort.Direction.DESC;
-		}
+  @Override
+  public List<Essay> getEssays(String sortProperty, boolean isAsc) {
 
-		Sort sort = new Sort(new Sort.Order(direction, sortProperty));
+    Direction direction = null;
 
-		return essayRepository.findAll(sort);
+    if (isAsc) {
+      direction = Sort.Direction.ASC;
+    } else {
+      direction = Sort.Direction.DESC;
+    }
 
-	}
+    Sort sort = new Sort(new Sort.Order(direction, sortProperty));
 
-	@Override
-	public List<Essay> getEssays(int pageIndex, int pageSize, String sortProperty, boolean isAsc) {
+    return essayRepository.findAll(sort);
 
-		Pageable pageSpecification = buildPageSpecification(pageIndex, pageSize, sortProperty, isAsc);
+  }
 
-		Page<Essay> page = essayRepository.findAll(pageSpecification);
+  @Override
+  public List<Essay> getEssays(int pageIndex, int pageSize, String sortProperty, boolean isAsc) {
 
-		return page.getContent();
-	}
+    Pageable pageSpecification = buildPageSpecification(pageIndex, pageSize, sortProperty, isAsc);
 
-	// Pagination
-	private Pageable buildPageSpecification(int pageIndex, int pageSize, String sortProperty, boolean isAsc) {
+    Page<Essay> page = essayRepository.findAll(pageSpecification);
 
-		Sort sortSpec = getSort(sortProperty, isAsc);
+    return page.getContent();
+  }
 
-		return new PageRequest(pageIndex, pageSize, sortSpec);
-	}
+  // Pagination
+  private Pageable buildPageSpecification(int pageIndex, int pageSize, String sortProperty,
+      boolean isAsc) {
 
-	private Sort getSort(String sortProperty, boolean isAsc) {
-		Direction direction = null;
+    Sort sortSpec = getSort(sortProperty, isAsc);
 
-		if (isAsc) {
-			direction = Sort.Direction.ASC;
-		} else {
-			direction = Sort.Direction.DESC;
-		}
+    return new PageRequest(pageIndex, pageSize, sortSpec);
+  }
 
-		Sort sort = new Sort(new Sort.Order(direction, sortProperty));
+  private Sort getSort(String sortProperty, boolean isAsc) {
+    Direction direction = null;
 
-		return sort;
-	}
+    if (isAsc) {
+      direction = Sort.Direction.ASC;
+    } else {
+      direction = Sort.Direction.DESC;
+    }
 
-	@Override
-	public Essay saveOrUpdate(Essay essay) {
+    Sort sort = new Sort(new Sort.Order(direction, sortProperty));
 
-		String content = essay.getContent();
+    return sort;
+  }
 
-		// sans-serif is not found in jasperreports and may cause the crash of
-		// report generation. But SansSerif is supported.
-		content = this.sanitizeRichText(content.replace("sans-serif;", "SansSerif;"));
-		essay.setContent(content);
+  @Override
+  public Essay saveOrUpdate(Essay essay) {
 
-		return essayRepository.save(essay);
-	}
+    String content = essay.getContent();
 
-	@Override
-	public void delete(Essay essay) {
-		essayRepository.delete(essay);
-	}
+    // sans-serif is not found in jasperreports and may cause the crash of
+    // report generation. But SansSerif is supported.
+    content = this.sanitizeRichText(content.replace("sans-serif;", "SansSerif;"));
+    essay.setContent(content);
 
-	@Override
-	public void deleteAll() {
-		essayRepository.deleteAll();
-	}
+    return essayRepository.save(essay);
+  }
 
-	/**
-	 * This setter method should be used only by unit tests.
-	 * 
-	 * @param essayRepository
-	 */
-	protected void setEssayRepository(EssayRepository essayRepository) {
-		this.essayRepository = essayRepository;
-	}
+  @Override
+  public void delete(Essay essay) {
+    essayRepository.delete(essay);
+  }
 
-	private String sanitizeRichText(String rawText) {
-		String sanitizedText = "";
+  @Override
+  public void deleteAll() {
+    essayRepository.deleteAll();
+  }
 
-		if (rawText != null) {
+  /**
+   * This setter method should be used only by unit tests.
+   * 
+   * @param essayRepository
+   */
+  protected void setEssayRepository(EssayRepository essayRepository) {
+    this.essayRepository = essayRepository;
+  }
 
-			sanitizedText = Jsoup.clean(rawText, whitelist);
-		}
+  private String sanitizeRichText(String rawText) {
+    String sanitizedText = "";
 
-		return sanitizedText;
-	}
+    if (rawText != null) {
+
+      sanitizedText = Jsoup.clean(rawText, whitelist);
+    }
+
+    return sanitizedText;
+  }
 }

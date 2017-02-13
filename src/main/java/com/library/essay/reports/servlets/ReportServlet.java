@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.HttpRequestHandler;
 
 import com.library.essay.persistence.entities.Essay;
@@ -18,9 +17,7 @@ import com.library.essay.reports.dataSource.EssayReportDataSource;
 import com.library.essay.reports.resource.JasperReportGenerationResource;
 import com.library.essay.services.EssayService;
 
-//The target bean name must match the HttpRequestHandlerServlet servlet-name as
-//defined in web.xml.
-@Component("reportServlet")
+
 public class ReportServlet implements HttpRequestHandler {
 
 	@Autowired

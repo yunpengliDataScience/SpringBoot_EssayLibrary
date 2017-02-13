@@ -18,6 +18,7 @@ import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
 
 import com.library.essay.quartz.listeners.MyQuartzListener;
+import com.library.essay.reports.servlets.ChartReportServlet;
 import com.library.essay.reports.servlets.ReportServlet;
 import com.library.essay.tinymce.spellchecker.JazzySpellCheckerServlet;
 import com.sun.faces.config.ConfigureListener;
@@ -37,19 +38,29 @@ public class WebConfig {
   }
 
   // Register HttpRequestHandler
-  @Bean(name = "httpRequestHandlerServlet")
-  public HttpRequestHandler reportSpringBeanServlet() {
+//  @Bean(name = "httpRequestHandlerServlet")
+//  public HttpRequestHandler reportSpringBeanServlet() {
+//    return new ReportServlet();
+//  }
+
+  // Register HttpRequestHandlerServlet that maps to /report
+//  @Bean
+//  public ServletRegistrationBean httpRequestHandlerServletRegistrationBean() {
+//
+//    ServletRegistrationBean servletRegistrationBean =
+//        new ServletRegistrationBean(new HttpRequestHandlerServlet(), "/report");
+//
+//    return servletRegistrationBean;
+//  }
+  
+  @Bean
+  public ReportServlet reportServlet() {
     return new ReportServlet();
   }
-
-  // Register HttpRequestHandlerServlet that maps to /resport
+  
   @Bean
-  public ServletRegistrationBean httpRequestHandlerServletRegistrationBean() {
-
-    ServletRegistrationBean servletRegistrationBean =
-        new ServletRegistrationBean(new HttpRequestHandlerServlet(), "/report");
-
-    return servletRegistrationBean;
+  public ChartReportServlet chartReportServlet() {
+    return new ChartReportServlet();
   }
 
   // Register Jazzy SpellChecker

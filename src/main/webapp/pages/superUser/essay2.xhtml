@@ -38,6 +38,13 @@
 			<p:separator />
 		</h:form>
 
+		<h:form id="reports">
+			<h1>Summary Reports</h1>
+			<br></br>
+			<p:link value="Author and Essay Count Chart Report"
+				onclick="window.open('#{request.contextPath}/chartReport', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
+		</h:form>
+		
 		<h1>Essay Data Table</h1>
 		<h:form id="essayList">
 			<p:dataTable value="#{essayBean.getEssays()}" var="essay">

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.3.final using JasperReports Library version 6.0.3  -->
+<!-- 2017-02-13T13:58:08 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="chart" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0d4682f5-533f-466a-b40e-f24a87cc5e48">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="essayCount" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="author" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="90" y="24" width="170" height="30" uuid="949854a1-a507-41ff-8d54-b9c759f3eeec"/>
+				<text><![CDATA[Author and Essay Count]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="0" width="100" height="30" uuid="0fe9051a-c897-4a04-83b1-553b0272d728"/>
+				<text><![CDATA[Essay Count]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="0" width="100" height="30" uuid="7120fae6-0598-4cf2-8f7e-4fba8ba6da8d"/>
+				<text><![CDATA[Author]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement x="180" y="2" width="100" height="30" uuid="34b0108a-856a-4d06-a8dd-b593a76365de"/>
+				<textFieldExpression><![CDATA[$F{essayCount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="2" width="100" height="30" uuid="b1f1ff97-c44f-40b8-89cd-9bdd4d51ca97"/>
+				<textFieldExpression><![CDATA[$F{author}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="22" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="541" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="80" y="50" width="310" height="220" uuid="b5afdf9a-c0d5-401c-9ede-2a19cfc79240"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{author}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{author}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{essayCount}]]></valueExpression>
+						<labelExpression><![CDATA[$F{author}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="80" y="330" width="300" height="210" uuid="a5678ee2-7201-4eef-aba5-e4fbb8966046"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{author}]]></keyExpression>
+					<valueExpression><![CDATA[$F{essayCount}]]></valueExpression>
+					<labelExpression><![CDATA[$F{author}]]></labelExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<staticText>
+				<reportElement x="80" y="290" width="100" height="30" uuid="88141ded-1fc5-460e-b46d-2ea4fffc5f5a"/>
+				<text><![CDATA[Pie Chart:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="0" width="100" height="30" uuid="6dfdde94-222d-4f8f-84fb-74acaa7c50a4"/>
+				<text><![CDATA[Bar Chart:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
