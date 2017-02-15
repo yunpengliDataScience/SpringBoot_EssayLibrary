@@ -14,11 +14,9 @@ import org.springframework.boot.context.web.NonEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
-import org.springframework.web.HttpRequestHandler;
-import org.springframework.web.context.support.HttpRequestHandlerServlet;
-
 import com.library.essay.quartz.listeners.MyQuartzListener;
 import com.library.essay.reports.servlets.ChartReportServlet;
+import com.library.essay.reports.servlets.DynamicChartReportServlet;
 import com.library.essay.reports.servlets.ReportServlet;
 import com.library.essay.tinymce.spellchecker.JazzySpellCheckerServlet;
 import com.sun.faces.config.ConfigureListener;
@@ -61,6 +59,11 @@ public class WebConfig {
   @Bean
   public ChartReportServlet chartReportServlet() {
     return new ChartReportServlet();
+  }
+  
+  @Bean
+  public DynamicChartReportServlet dynamicChartReportServlet() {
+    return new DynamicChartReportServlet();
   }
 
   // Register Jazzy SpellChecker

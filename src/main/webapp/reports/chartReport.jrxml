@@ -59,7 +59,7 @@
 	<summary>
 		<band height="541" splitType="Stretch">
 			<barChart>
-				<chart evaluationTime="Report">
+				<chart evaluationTime="Report" customizerClass="com.library.essay.reports.utils.BarChartCustomizer">
 					<reportElement x="80" y="50" width="310" height="220" uuid="b5afdf9a-c0d5-401c-9ede-2a19cfc79240"/>
 					<chartTitle/>
 					<chartSubtitle/>

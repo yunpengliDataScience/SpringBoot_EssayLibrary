@@ -22,13 +22,16 @@ public class MyServletContextInitializer implements ServletContextInitializer {
 	    // "reportServlet" should match the method name annotated with @Bean.
 	    ServletRegistration.Dynamic reportServletRegistration =
 	        servletContext.addServlet("reportServlet", new HttpRequestHandlerServlet());
-
 	    reportServletRegistration.addMapping("/report");
 	    
 	    ServletRegistration.Dynamic chartReportServletRegistration =
             servletContext.addServlet("chartReportServlet", new HttpRequestHandlerServlet());
-
 	    chartReportServletRegistration.addMapping("/chartReport");
+	    
+	    ServletRegistration.Dynamic dynamicChartReportServletRegistration =
+            servletContext.addServlet("dynamicChartReportServlet", new HttpRequestHandlerServlet());
+	    dynamicChartReportServletRegistration.addMapping("/dynamicChartReport");
+	    
 	}
 
 }

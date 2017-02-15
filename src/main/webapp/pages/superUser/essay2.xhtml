@@ -9,7 +9,8 @@
 	xmlns:myEditor="http://java.sun.com/jsf/composite/components">
 <h:head>
 	<h:outputStylesheet library="css" name="table-style.css" />
-	<h:outputStylesheet library="primefaces-#{themeSwitcherBean.theme}" name="theme.css" />
+	<h:outputStylesheet library="primefaces-#{themeSwitcherBean.theme}"
+		name="theme.css" />
 	<myEditor:loadMyTinyMCE />
 </h:head>
 
@@ -18,10 +19,10 @@
 	<center>
 		<br />
 		<h:outputLink value="#{request.contextPath}/pages/homePage.xhtml">Home</h:outputLink>
-		<br/>
+		<br />
 		<h:outputLink value="#{request.contextPath}/pages/logout">Logout</h:outputLink>
 		<br /> <br /> <br />
-		
+
 		<p:outputLabel value="My Preferred Theme" />
 
 		<br /> <br /> <br />
@@ -41,17 +42,21 @@
 		<h:form id="reports">
 			<h1>Summary Reports</h1>
 			<br></br>
-			<p:link value="Author and Essay Count Chart Report"
+			<p:link value="Author and Essay Count Chart Jasper Report"
 				onclick="window.open('#{request.contextPath}/chartReport', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
+
+			<br></br>
+			<p:link value="Author and Essay Count Chart Dynamic Report"
+				onclick="window.open('#{request.contextPath}/dynamicChartReport', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
 		</h:form>
-		
+
 		<h1>Essay Data Table</h1>
 		<h:form id="essayList">
 			<p:dataTable value="#{essayBean.getEssays()}" var="essay">
 				<f:facet name="header">
 			        Essay Data Table (View Essays Only)
 				</f:facet>
-				
+
 				<p:column headerText="Essay ID">
 					<h:commandLink action="#{essayBean.showEssay()}"
 						value="#{essay.id}">
@@ -60,20 +65,20 @@
 				</p:column>
 
 				<p:column headerText="Title">
-					<h:outputText value="#{essay.title}" />   				
-    			</p:column>
+					<h:outputText value="#{essay.title}" />
+				</p:column>
 
 				<p:column headerText="Author">
-					<h:outputText value="#{essay.author}" /> 
-    			</p:column>
+					<h:outputText value="#{essay.author}" />
+				</p:column>
 			</p:dataTable>
 
 		</h:form>
-		
+
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 			ONLY ADMIN USER CAN SEE THIS TEXT !
 		</sec:authorize>
-		
+
 		<h1>Essay Form</h1>
 		<h:form id="essay" rendered="#{essayBean.essay!=null}">
 
@@ -85,50 +90,50 @@
 						<p:outputLabel for="title" value="Title :" />
 					</p:column>
 					<p:column>
-						<p:inputText id="title"
-							value="#{essayBean.essay.title}"
-							size="50" required="true"/>
+						<p:inputText id="title" value="#{essayBean.essay.title}" size="50"
+							required="true" />
 					</p:column>
 					<p:column>
 						<h:message for="title" style="color:red" />
 					</p:column>
 				</p:row>
-				
+
 				<p:row>
 					<p:column>
 						<p:outputLabel for="author" value="Author :" />
 					</p:column>
 					<p:column>
-						<p:inputText id="author"
-							value="#{essayBean.essay.author}"
-							size="50" required="true"/>
+						<p:inputText id="author" value="#{essayBean.essay.author}"
+							size="50" required="true" />
 					</p:column>
 					<p:column>
 						<h:message for="author" style="color:red" />
 					</p:column>
 				</p:row>
-				
+
 				<p:row>
 					<p:column>
 						<p:outputLabel for="myEditor:inputText" value="Content :" />
 					</p:column>
 					<p:column>
-						<myEditor:myTinyMCE id="myEditor" value="#{essayBean.essay.content}">
-							<f:validateRequired for="inputText"/>
+						<myEditor:myTinyMCE id="myEditor"
+							value="#{essayBean.essay.content}">
+							<f:validateRequired for="inputText" />
 						</myEditor:myTinyMCE>
 					</p:column>
 					<p:column>
 						<h:message for="inputText" style="color:red" />
 					</p:column>
 				</p:row>
-						
+
 			</p:panelGrid>
 
 			<!-- Only admin can see the Save button -->
 			<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-				<p:commandButton value="Save" action="#{essayBean.saveEssay()}" ajax="false"/>
+				<p:commandButton value="Save" action="#{essayBean.saveEssay()}"
+					ajax="false" />
 			</sec:authorize>
-			
+
 			<p:button value="Report"
 				onclick="window.open('#{request.contextPath}/report?essayId=#{essayBean.essay.id}', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
 

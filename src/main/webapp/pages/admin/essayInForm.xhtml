@@ -41,8 +41,12 @@
 		<h:form id="reports">
 			<h1>Summary Reports</h1>
 			<br></br>
-			<p:link value="Author and Essay Count Chart Report"
+			<p:link value="Author and Essay Count Chart Jasper Report"
 				onclick="window.open('#{request.contextPath}/chartReport', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
+
+			<br></br>
+			<p:link value="Author and Essay Count Chart Dynamic Report"
+				onclick="window.open('#{request.contextPath}/dynamicChartReport', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
 		</h:form>
 
 		<h1>Essay Data Table (View and Edit Essays)</h1>

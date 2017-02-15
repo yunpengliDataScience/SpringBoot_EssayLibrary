@@ -47,7 +47,7 @@ public class ChartReportServlet implements HttpRequestHandler {
     chartReportList = essayService.countEssayByAuthor();
 
     ChartReportDataSource barChartReportDataSource =
-        new ChartReportDataSource("Essay Chart Report", chartReportList);
+        new ChartReportDataSource("Author and Essay Count Chart Report", chartReportList);
 
     ServletContext context = request.getSession().getServletContext();
 
