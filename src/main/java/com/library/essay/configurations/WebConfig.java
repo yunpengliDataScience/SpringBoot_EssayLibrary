@@ -17,6 +17,7 @@ import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import com.library.essay.quartz.listeners.MyQuartzListener;
 import com.library.essay.reports.servlets.ChartReportServlet;
 import com.library.essay.reports.servlets.DynamicChartReportServlet;
+import com.library.essay.reports.servlets.JFreeChartDemoServlet;
 import com.library.essay.reports.servlets.ReportServlet;
 import com.library.essay.tinymce.spellchecker.JazzySpellCheckerServlet;
 import com.sun.faces.config.ConfigureListener;
@@ -64,6 +65,11 @@ public class WebConfig {
   @Bean
   public DynamicChartReportServlet dynamicChartReportServlet() {
     return new DynamicChartReportServlet();
+  }
+  
+  @Bean
+  public JFreeChartDemoServlet jFreeChartDemoServlet() {
+    return new JFreeChartDemoServlet();
   }
 
   // Register Jazzy SpellChecker
