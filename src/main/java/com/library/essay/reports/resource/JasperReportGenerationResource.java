@@ -21,6 +21,7 @@ import net.sf.jasperreports.engine.util.JRSwapFile;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 import org.apache.log4j.Logger;
 
@@ -58,7 +59,7 @@ public class JasperReportGenerationResource<T> {
     JRAbstractExporter exporter = null;
     if ("text/html".equals(contentType)) {
       exporter = new JRXhtmlExporter();
-      //exporter = new HtmlExporter();
+      // exporter = new HtmlExporter();
     } else {
       // Default is pdf
       exporter = new JRPdfExporter();
@@ -81,20 +82,11 @@ public class JasperReportGenerationResource<T> {
       // exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
 
       exporter.setExporterInput(new SimpleExporterInput(print));
-      exporter.setExporterOutput(new OutputStreamExporterOutput() {
+      exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
 
-        @Override
-        public OutputStream getOutputStream() {
-
-          return outputStream;
-        }
-
-        @Override
-        public void close() {
-          
-        }
-      });
-
+      // To combine reports in one, add JasperPrint to a list, then use:
+      // exporter.setExporterInput(SimpleExporterInput.getInstance(list));
+      
       System.out.println("Start exporting report...");
       exporter.exportReport();
 
