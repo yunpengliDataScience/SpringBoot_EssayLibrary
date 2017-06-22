@@ -17,9 +17,9 @@
 			tinyMCE.init({
 				mode : "textareas",
 				theme : "modern",
-				toolbar: "undo redo | styleselect | bold italic underline strikethrough | bullist numlist | image table | spellchecker",
+				toolbar: "undo redo | styleselect | bold italic underline strikethrough | bullist numlist | image table | charmap | spellchecker",
 				selector: "textarea.jazzy",
-				plugins: "spellchecker image table",
+				plugins: "spellchecker image table charmap",
 				spellchecker_languages : "+English=en-us",
 				spellchecker_rpc_url : "#{request.contextPath}/servlet/jazzy-spellchecker"
 			});

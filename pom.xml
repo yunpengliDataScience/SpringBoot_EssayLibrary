@@ -365,12 +365,14 @@
 
 
 	<repositories>
+		<!-- Primefaces Theme Repo -->
 		<repository>
 			<id>prime-repo</id>
 			<name>PrimeFaces Maven Repository</name>
-			<url>http://repository.primefaces.org</url>
+			<url>https://repository.primefaces.org</url>
 			<layout>default</layout>
 		</repository>
+		
 		<!-- For JMySpell-->
         <repository>
             <id>Nuxeo</id>
