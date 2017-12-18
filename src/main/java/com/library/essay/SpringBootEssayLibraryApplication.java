@@ -13,7 +13,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 // Scan @Service and @Component definitions
 @ComponentScan(basePackages = { "com.library.essay" })
 @EnableAutoConfiguration
-@EnableScheduling
+//Spring scheduling, uncomment it to enable.
+//@EnableScheduling
 public class SpringBootEssayLibraryApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

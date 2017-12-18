@@ -106,7 +106,8 @@ public class WebConfig {
   }
 
   // Servlet Listener registration
-  @Bean
+  //Quartz scheduling registration, uncomment to enable.
+  //@Bean
   public ServletListenerRegistrationBean<MyQuartzListener> myQuartzListener() {
     return new ServletListenerRegistrationBean<MyQuartzListener>(new MyQuartzListener());
   }
