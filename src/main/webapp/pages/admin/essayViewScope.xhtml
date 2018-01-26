@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:myEditor="http://java.sun.com/jsf/composite/components">
+<h:head>
+	<h:outputStylesheet library="css" name="table-style.css" />
+	<h:outputStylesheet library="primefaces-#{themeSwitcherBean.theme}"
+		name="theme.css" />
+	<myEditor:loadMyTinyMCE />
+</h:head>
+
+<h:body>
+
+	<center>
+		<br />
+		<h:outputLink value="#{request.contextPath}/pages/homePage.xhtml">Home</h:outputLink>
+		<br />
+		<h:outputLink value="#{request.contextPath}/pages/logout">Logout</h:outputLink>
+		<br /> <br /> <br />
+
+		<p:outputLabel value="My Preferred Theme" />
+
+		<br /> <br /> <br />
+		<h:form id="form-theme">
+			<p:themeSwitcher id="defaultSwitcher"
+				value="#{themeSwitcherBean.theme}">
+
+				<f:selectItem itemLabel="Choose Theme" itemValue="" />
+				<f:selectItems value="#{themeSwitcherBean.themes}" />
+				<p:ajax listener="#{themeSwitcherBean.saveTheme}" />
+
+			</p:themeSwitcher>
+
+			<p:separator />
+		</h:form>
+
+		<h:form id="reports">
+			<h1>Summary Reports</h1>
+			<br></br>
+			<p:link value="Author and Essay Count Chart (Jasper Report)"
+				onclick="window.open('#{request.contextPath}/chartReport', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
+
+			<br></br>
+			<p:link value="Author and Essay Count Chart (Dynamic Report)"
+				onclick="window.open('#{request.contextPath}/dynamicChartReport', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
+
+			<br></br>
+			<p:link value="Author and Essay Count Chart (JFreeChart Report)"
+				onclick="window.open('#{request.contextPath}/jFreeChartDemoReport', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
+		</h:form>
+
+		<h1>Essay Data Table (View and Edit Essays)</h1>
+		<h:form id="essayList">
+
+			<p:dataTable value="#{essayBeanViewScope.getEssays()}" var="essay">
+				<f:facet name="header">
+			        Essay Data Table
+				</f:facet>
+
+				<p:column headerText="Essay ID">
+					<p:commandLink
+						actionListener="#{essayBeanViewScope.showEssayAdmin()}"
+						ajax="true" update="essayForm" value="#{essay.id}">
+						<f:param name="essayId" value="#{essay.id}" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column headerText="Title">
+					<h:outputText value="#{essay.title}" />
+				</p:column>
+
+				<p:column headerText="Author">
+					<h:outputText value="#{essay.author}" />
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+
+		<h1>Essay Form</h1>
+		<h:form id="essayForm" rendered="#{essayBeanViewScope.essay!=null}">
+
+			<h:inputHidden value="#{essayBeanViewScope.essay.id}" />
+
+			<p:panelGrid>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="title" value="Title :" />
+					</p:column>
+					<p:column>
+						<p:inputText id="title" value="#{essayBeanViewScope.essay.title}"
+							size="50" required="true" />
+					</p:column>
+					<p:column>
+						<h:message for="title" style="color:red" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<p:outputLabel for="author" value="Author :" />
+					</p:column>
+					<p:column>
+						<p:inputText id="author"
+							value="#{essayBeanViewScope.essay.author}" size="50"
+							required="true" />
+					</p:column>
+					<p:column>
+						<h:message for="author" style="color:red" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<p:outputLabel for="myEditor:inputText" value="Content :" />
+					</p:column>
+					<p:column>
+						<myEditor:myTinyMCE id="myEditor"
+							value="#{essayBeanViewScope.essay.content}">
+							<f:validateRequired for="inputText" />
+						</myEditor:myTinyMCE>
+					</p:column>
+					<p:column>
+						<h:message for="inputText" style="color:red" />
+					</p:column>
+				</p:row>
+
+			</p:panelGrid>
+
+			<p:commandButton value="Create New"
+				actionListener="#{essayBeanViewScope.createNewEssay()}"
+				immediate="true" resetValues="true" ajax="true" update="essayForm" />
+
+			<p:commandButton value="Save"
+				actionListener="#{essayBeanViewScope.saveEssayInForm()}" ajax="true"
+				update="essayList essayForm" />
+
+			<p:commandButton type="button" value="Delete"
+				onclick="PF('cd').show()" />
+			<p:confirmDialog message="Are you sure about deleting this essay?"
+				header="Initiating delete process" severity="alert" widgetVar="cd">
+				<p:commandButton value="Yes Sure"
+					action="#{essayBeanViewScope.deleteEssay()}"
+					oncomplete="PF('cd').hide()" ajax="false" />
+				<p:commandButton value="Not Yet" onclick="PF('cd').hide();"
+					type="button" />
+			</p:confirmDialog>
+
+			<p:button value="Report"
+				onclick="window.open('#{request.contextPath}/report?essayId=#{essayBeanViewScope.essay.id}', 'popupWindowName', 'dependent=yes, menubar=no, toolbar=no'); return false;" />
+
+		</h:form>
+	</center>
+</h:body>
+
+</html>

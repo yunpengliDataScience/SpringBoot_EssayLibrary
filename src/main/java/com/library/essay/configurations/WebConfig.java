@@ -1,8 +1,11 @@
 package com.library.essay.configurations;
 
+import java.util.HashMap;
+
 import javax.faces.webapp.FacesServlet;
 
 import org.apache.catalina.Context;
+import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
@@ -20,6 +23,7 @@ import com.library.essay.reports.servlets.DynamicChartReportServlet;
 import com.library.essay.reports.servlets.JFreeChartDemoServlet;
 import com.library.essay.reports.servlets.ReportServlet;
 import com.library.essay.tinymce.spellchecker.JazzySpellCheckerServlet;
+import com.library.essay.utils.ViewScope;
 import com.sun.faces.config.ConfigureListener;
 
 @Configuration
@@ -126,5 +130,22 @@ public class WebConfig {
     filterRegistrationBean.setOrder(1);
 
     return filterRegistrationBean;
+  }
+  
+  @Bean
+  public static ViewScope viewScope() {
+    return new ViewScope();
+  }
+ 
+  /**
+   * Allows the use of @Scope("view") on Spring @Component, @Service and @Controller beans
+   */
+  @Bean
+  public static CustomScopeConfigurer scopeConfigurer() {
+    CustomScopeConfigurer configurer = new CustomScopeConfigurer();
+    HashMap<String, Object> hashMap = new HashMap<String, Object>();
+    hashMap.put("view", viewScope());
+    configurer.setScopes(hashMap);
+    return configurer;
   }
 }
